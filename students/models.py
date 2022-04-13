@@ -81,9 +81,8 @@ class Profile(models.Model):
     department = models.CharField(max_length=3, choices=department_values)
     bio = models.TextField(max_length=500)
     graduating = models.BooleanField(default=False)
-    # phoneno = models.IntegerField(default=False)
-    address = models.CharField(max_length=500, default=False)
-    gmailid = models.CharField(default=False, max_length=60)
+    address = models.CharField(max_length=500, default="")
+    gmailid = models.CharField(default="", max_length=60)
     phoneno = models.CharField(validators=[only_int], max_length=10, default="")
 
     def __str__(self):
