@@ -78,6 +78,15 @@ class Profile(models.Model):
     def __str__(self):
         return self.full_name
 
+class Team_Member(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    linkedin = models.URLField(max_length=200)
+    profile_pic = models.ImageField(upload_to='team/', default='team/no-profile-pic.png')
+    position = models.CharField(max_length=100, null=False)
+
+    def __str__(self):
+        return self.name+" "+self.position
+    
 
 class Testimonial(models.Model):
     favourite = models.BooleanField(default=False)
