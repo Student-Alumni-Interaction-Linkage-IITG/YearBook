@@ -21,10 +21,18 @@
                                 </h6>
                                 <br>
                                 <div class="card-text">
+                                    <h6><b>Phone Number</b></h6>
+                                    <p>{{ profile.phoneno }}</p>
+                                </div>
+                                <div class="card-text">
                                     <h6><b>Webmail</b></h6>
                                     <p><a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></p>
+                                    <h6><b>Email</b></h6>
+                                    <p><a href="mailto:{{ profile.gmailid }}">{{ profile.gmailid }}</a></p>
                                     <h6><b>Bio</b></h6>
                                     <p>{{ profile.bio }}</p>
+                                    <h6><b>Address</b></h6>
+                                    <p>{{ profile.address }}</p>
                                 </div>
                             </div>
                             {% if myprofile %}
@@ -162,10 +170,18 @@
                                 </h6>
                                 <br>
                                 <div class="card-text">
+                                    <h6><b>Phone Number </b></h6>
+                                    <p>{{ profile.phoneno }}</p>
+                                </div>
+                                <div class="card-text">
                                     <h6><b>Webmail</b></h6>
                                     <p><a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></p>
+                                    <h6><b>Email</b></h6>
+                                    <p><a href="mailto:{{ profile.gmailid }}">{{ profile.gmailid }}</a></p>
                                     <h6><b>Bio</b></h6>
                                     <p>{{ profile.bio }}</p>
+                                    <h6><b>Address</b></h6>
+                                    <p>{{ profile.address }}</p>
                                 </div>
                             </div>
                             {% if myprofile %}

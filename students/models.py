@@ -2,8 +2,15 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
+from django.core.exceptions import ValidationError
+import uuid
 # Create your models here.
-
+def only_int(value): 
+    if (value.isdigit()==True and len(value) == 10) or len(value) ==0 :
+        return value
+    else:
+        raise ValidationError('Phone number should contain only numbers')
 
 class Profile(models.Model):
     btech = '01'
@@ -74,6 +81,10 @@ class Profile(models.Model):
     department = models.CharField(max_length=3, choices=department_values)
     bio = models.TextField(max_length=500)
     graduating = models.BooleanField(default=False)
+    # phoneno = models.IntegerField(default=False)
+    address = models.CharField(max_length=500, default=False)
+    gmailid = models.CharField(default=False, max_length=60)
+    phoneno = models.CharField(validators=[only_int], max_length=10, default="")
 
     def __str__(self):
         return self.full_name
@@ -168,4 +179,4 @@ class Leaderboard(models.Model):
     cnt_6 = models.IntegerField(default=0)
     cnt_7 = models.IntegerField(default=0)
     cnt_8 = models.IntegerField(default=0)
-    cnt_9 = models.IntegerField(default=0)
+    cnt_9 = models.IntegerField(default=0)  

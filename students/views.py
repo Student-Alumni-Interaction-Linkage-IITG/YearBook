@@ -258,7 +258,7 @@ def edit_profile(request):
             user = User.objects.filter(username=request.user.username).first()
             profile = Profile.objects.filter(user=user).first()
             new_name = request.POST.get("name", "")
-            errors = [0, 0]
+            errors = [0, 0, 0,0,0]
             if user.is_superuser:
                 return error404(request)
             if len(new_name) < 50 and new_name != "":
@@ -270,6 +270,21 @@ def edit_profile(request):
                 profile.bio = new_bio
             else:
                 errors[1] = 1
+            new_mailid = request.POST.get("mailid", "")
+            if len(new_mailid) <= 60:
+                profile.gmailid = new_mailid
+            else:
+                errors[2] = 1
+            new_address = request.POST.get("address", "")
+            if len(new_address) <= 500:
+                profile.address = new_address
+            else:
+                errors[3] = 1
+            new_phoneno = request.POST.get("phoneno", "")
+            if len(new_phoneno) == 10:
+                profile.phoneno = new_phoneno
+            else:
+                errors[4] = 1
             profile.save()
             context = {
                 'updated': True,
@@ -277,7 +292,7 @@ def edit_profile(request):
                 'errors': errors,
                 'logged_in': True
             }
-            if errors[0] + errors[1] == 0:
+            if errors[0] + errors[1] + errors[2] + errors[3] + errors[4] == 0:
                 return render(request, 'editprofile.html', context)
             else:
                 context['updated'] = False
