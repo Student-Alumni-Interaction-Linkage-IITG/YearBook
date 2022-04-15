@@ -64,6 +64,9 @@
 						</td>
 					</tr>
 					{% endfor %}
+					{% if lead_dict|length == 0 %}
+					<tr><td colspan="2">No Testimonials</td></tr>
+					{% endif %}
 				</tbody>
 			</table>
 		</div>

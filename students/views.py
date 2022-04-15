@@ -662,19 +662,22 @@ def leaderboard(request):
         if logged_in:
             user = User.objects.filter(username=request.user.username).first()
 
-            lead = (Leaderboard.objects.all().order_by('-pub_date'))[0]
+            sorted_leaderboard = Leaderboard.objects.all().order_by('-pub_date')
             sorted_d = []
-            sorted_d.append((lead.profile_0,lead.cnt_0))
-            sorted_d.append((lead.profile_1,lead.cnt_1))
-            sorted_d.append((lead.profile_2,lead.cnt_2))
-            sorted_d.append((lead.profile_3,lead.cnt_3))
-            sorted_d.append((lead.profile_4,lead.cnt_4))
-            sorted_d.append((lead.profile_5,lead.cnt_5))
-            sorted_d.append((lead.profile_6,lead.cnt_6))
-            sorted_d.append((lead.profile_7,lead.cnt_7))
-            sorted_d.append((lead.profile_8,lead.cnt_8))
-            sorted_d.append((lead.profile_9,lead.cnt_9))
-            last_updated = (lead.pub_date + timedelta(hours=5,minutes=30)).strftime("%H:%M, %b %d")
+            last_updated = "--/--/----"
+            if(sorted_leaderboard.count() > 0):
+                lead = (Leaderboard.objects.all().order_by('-pub_date'))[0]
+                sorted_d.append((lead.profile_0,lead.cnt_0))
+                sorted_d.append((lead.profile_1,lead.cnt_1))
+                sorted_d.append((lead.profile_2,lead.cnt_2))
+                sorted_d.append((lead.profile_3,lead.cnt_3))
+                sorted_d.append((lead.profile_4,lead.cnt_4))
+                sorted_d.append((lead.profile_5,lead.cnt_5))
+                sorted_d.append((lead.profile_6,lead.cnt_6))
+                sorted_d.append((lead.profile_7,lead.cnt_7))
+                sorted_d.append((lead.profile_8,lead.cnt_8))
+                sorted_d.append((lead.profile_9,lead.cnt_9))
+                last_updated = (lead.pub_date + timedelta(hours=5,minutes=30)).strftime("%H:%M, %b %d")
             announce=list(Announcement.objects.all().order_by('-pub_date'))
 
             context = {
