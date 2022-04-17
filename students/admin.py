@@ -1,12 +1,12 @@
 from django.contrib import admin
-from students.models import Profile, Testimonial, ProfileQuestion, ProfileAnswers, PollQuestion, PollAnswer, Announcement, Leaderboard, Team_Member
+from students.models import Profile, Testimonial, ProfileQuestion, ProfileAnswers, PollQuestion, PollAnswer, Announcement, Leaderboard
 
 
 # Register your models here.
 
 class ProfileAdmin(admin.ModelAdmin):
-    search_fields = ('user__first_name', 'full_name', 'rollno', 'program', 'department', 'graduating')
-    list_display = ('__str__', 'user', 'full_name', 'rollno', 'program', 'department', 'graduating')
+    search_fields = ('user__first_name', 'full_name', 'rollno', 'program', 'department', 'graduating', 'phoneno', 'address', 'gmailid')
+    list_display = ('__str__', 'user', 'full_name', 'rollno', 'program', 'department', 'graduating', 'phoneno', 'address', 'gmailid')
 
 
 class TestimonialAdmin(admin.ModelAdmin):
@@ -37,4 +37,3 @@ admin.site.register(PollQuestion)
 admin.site.register(PollAnswer, PollAnswerAdmin),
 admin.site.register(Announcement),
 admin.site.register(Leaderboard)
-admin.site.register(Team_Member)
