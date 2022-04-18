@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Testimonial, PollAnswer, PollQuestion, ProfileAnswers, ProfileQuestion, Profile, Announcement, Leaderboard
+from .models import Testimonial, PollAnswer, PollQuestion, ProfileAnswers, ProfileQuestion, Profile, Announcement, Leaderboard, Team_Member
 from django.db.models.functions import Length, Lower
 from PIL import Image, ImageOps
 import os
@@ -633,16 +633,21 @@ def team(request):
             logged_in = False
         if logged_in:
             user = User.objects.filter(username=request.user.username).first()
+            members = Team_Member.objects.all().order_by('position')
             context = {
                 'user': user,
-                'logged_in': logged_in
+                'logged_in': logged_in,
+                'team_members': members
             }
-            return render(request, 'team.html', context)
+            print(members)
+            return render(request, 'team_mem.html', context)
         else:
+            members = Team_Member.objects.all().order_by('position')
             context = {
-                'logged_in': logged_in
+                'logged_in': logged_in,
+                'team_members': members
             }
-            return render(request, 'team.html', context)
+            return render(request, 'team_mem.html', context)
     else:
         return error404(request)
 
@@ -657,20 +662,24 @@ def leaderboard(request):
         if logged_in:
             user = User.objects.filter(username=request.user.username).first()
 
-            lead = (Leaderboard.objects.all().order_by('-pub_date'))[0]
+            sorted_leaderboard = Leaderboard.objects.all().order_by('-pub_date')
             sorted_d = []
-            sorted_d.append((lead.profile_0,lead.cnt_0))
-            sorted_d.append((lead.profile_1,lead.cnt_1))
-            sorted_d.append((lead.profile_2,lead.cnt_2))
-            sorted_d.append((lead.profile_3,lead.cnt_3))
-            sorted_d.append((lead.profile_4,lead.cnt_4))
-            sorted_d.append((lead.profile_5,lead.cnt_5))
-            sorted_d.append((lead.profile_6,lead.cnt_6))
-            sorted_d.append((lead.profile_7,lead.cnt_7))
-            sorted_d.append((lead.profile_8,lead.cnt_8))
-            sorted_d.append((lead.profile_9,lead.cnt_9))
-            last_updated = (lead.pub_date + timedelta(hours=5,minutes=30)).strftime("%H:%M, %b %d")
-            announce=list(Announcement.objects.all().order_by('-pub_date'))
+            last_updated = "--/--/----"
+            if(sorted_leaderboard.count() > 0):
+                lead = sorted_leaderboard[0]
+                if lead.profile_0 is not None:
+                    sorted_d.append((lead.profile_0,lead.cnt_0))
+                    sorted_d.append((lead.profile_1,lead.cnt_1))
+                    sorted_d.append((lead.profile_2,lead.cnt_2))
+                    sorted_d.append((lead.profile_3,lead.cnt_3))
+                    sorted_d.append((lead.profile_4,lead.cnt_4))
+                    sorted_d.append((lead.profile_5,lead.cnt_5))
+                    sorted_d.append((lead.profile_6,lead.cnt_6))
+                    sorted_d.append((lead.profile_7,lead.cnt_7))
+                    sorted_d.append((lead.profile_8,lead.cnt_8))
+                    sorted_d.append((lead.profile_9,lead.cnt_9))
+                    last_updated = (lead.pub_date + timedelta(hours=5,minutes=30)).strftime("%H:%M, %b %d")
+                announce=list(Announcement.objects.all().order_by('-pub_date'))
 
             context = {
                 'user': user,
@@ -699,6 +708,10 @@ def update_leaderboard(request):
                 given_to_list = [testi.given_to for testi in Testimonial.objects.all()]
                 given_to_counter = collections.Counter(given_to_list)
                 sorted_d = sorted(given_to_counter.items(), key=lambda x: x[1], reverse=True)
+                if(len(sorted_d) == 0):
+                    Leaderboard.objects.create()
+                    return HttpResponseRedirect(reverse('leaderboard'))
+
                 if len(sorted_d)>10:
                     sorted_d=sorted_d[0:10]
                 while len(sorted_d)<10:
