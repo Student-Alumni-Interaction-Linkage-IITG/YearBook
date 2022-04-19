@@ -19,7 +19,7 @@ def create_new_profile(backend, user, response, details, *args, **kwargs):
                         program == "41" or program == "42" or program == "43" or program == "21" or program == "22")):
                     graduating = False
                 Profile.objects.create(user=user, full_name=response['name'], department=department, program=program,
-                                       rollno=int(rollno), graduating=graduating, phoneno = response['phoneno'], gmailid = response['gmailid'], address = response['address'])
+                                       rollno=int(rollno), graduating=graduating, phoneno = "", gmailid = "", address = "")
             else:
                 Profile.objects.create(user=user, full_name=response['name'], department='00', program='00',
                                        rollno=000000000, graduating=False, phoneno = False, gmailid = False, address = False)
