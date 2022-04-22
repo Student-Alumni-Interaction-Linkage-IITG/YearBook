@@ -34,9 +34,9 @@ if PRODUCTION:
     USE_X_FORWARDED_HOST = True
     USE_X_FORWARDED_PORT = True
 
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '172.17.1.128', 'www.iitg.ac.in', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '172.17.1.128', 'www.iitg.ac.in', '127.0.0.1', 'iitg.ac.in']
 
 # Application definition
 
