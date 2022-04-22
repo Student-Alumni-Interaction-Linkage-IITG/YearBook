@@ -31,6 +31,10 @@ if PRODUCTION:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    USE_X_FORWARDED_HOST = True
+    USE_X_FORWARDED_PORT = True
+
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '172.17.1.128', 'www.iitg.ac.in', '127.0.0.1']
 
