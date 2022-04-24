@@ -131,23 +131,23 @@
                             <div class="form-group">
                                 <label for="yearbook-name">Name in Yearbook</label>
                                 <input class="form-control {% if errors.0 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Name as you want in the Yearbook" name="name" value="{{ profile.full_name }}" autocomplete="off">
-                                <div class="invalid-feedback">Length of Name out of bounds</div>
+                                <div class="invalid-feedback invalid-feedback-name">Length of Name out of bounds</div>
                                 <br>
                                 <label for="yearbook-name">Given mail id</label>
                                 <input class="form-control {% if errors.2 %}is-invalid{% endif %}" id="yearbook-mail" placeholder="Your new email Id" name="mailid" value="{{ profile.gmailid}}" autocomplete="off">
-                                <div class="invalid-feedback">Incorrect format of mail id</div>
+                                <div class="invalid-feedback invalid-feedback-gmail">Incorrect format of mail id</div>
                                 <br>
                                 <label for="yearbook-name">Given phone number</label>
                                 <input class="form-control {% if errors.4 %}is-invalid{% endif %}" id="yearbook-phone" placeholder="Your new phone number" name="phoneno" value="{{ profile.phoneno }}" autocomplete="off">
-                                <div class="invalid-feedback">Invalid value of phone number</div>
+                                <div class="invalid-feedback invalid-feedback-phoneno">Invalid value of phone number</div>
                                 <br>
                                 <label for="yearbook-name">Address in Yearbook</label>
                                 <input class="form-control {% if errors.3 %}is-invalid{% endif %}" id="yearbook-addr" placeholder="Your new address" name="address" value="{{ profile.address }}" autocomplete="off">
-                                <div class="invalid-feedback">Length of Address out of bounds</div>
+                                <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
                                 <br>
                                 <label for="yearbook-bio">Bio</label>
                                 <textarea class="form-control {% if errors.1 %}is-invalid{% endif %}" id="yearbook-bio" rows="5" placeholder="Enter you Bio" name="bio" autocomplete="off">{{ profile.bio }}</textarea>
-                                <div class="invalid-feedback">Length of Bio out of bounds</div>
+                                <div class="invalid-feedback invalid-feedback-bio">Length of Bio out of bounds</div>
                                 {% csrf_token %}
                                 <br>
                                 <button class="btn btn-dark" style="width:100%;" type="submit">Save Changes</button>
