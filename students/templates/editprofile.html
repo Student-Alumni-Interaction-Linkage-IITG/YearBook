@@ -134,15 +134,15 @@
                                 <div class="invalid-feedback">Length of Name out of bounds</div>
                                 <br>
                                 <label for="yearbook-name">Given mail id</label>
-                                <input class="form-control {% if errors.2 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Your new email Id" name="mailid" value="{{ profile.gmailid}}" autocomplete="off">
+                                <input class="form-control {% if errors.2 %}is-invalid{% endif %}" id="yearbook-mail" placeholder="Your new email Id" name="mailid" value="{{ profile.gmailid}}" autocomplete="off">
                                 <div class="invalid-feedback">Incorrect format of mail id</div>
                                 <br>
                                 <label for="yearbook-name">Given phone number</label>
-                                <input class="form-control {% if errors.4 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Your new phone number" name="phoneno" value="{{ profile.phoneno }}" autocomplete="off">
+                                <input class="form-control {% if errors.4 %}is-invalid{% endif %}" id="yearbook-phone" placeholder="Your new phone number" name="phoneno" value="{{ profile.phoneno }}" autocomplete="off">
                                 <div class="invalid-feedback">Invalid value of phone number</div>
                                 <br>
                                 <label for="yearbook-name">Address in Yearbook</label>
-                                <input class="form-control {% if errors.3 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Your new address" name="address" value="{{ profile.address }}" autocomplete="off">
+                                <input class="form-control {% if errors.3 %}is-invalid{% endif %}" id="yearbook-addr" placeholder="Your new address" name="address" value="{{ profile.address }}" autocomplete="off">
                                 <div class="invalid-feedback">Length of Address out of bounds</div>
                                 <br>
                                 <label for="yearbook-bio">Bio</label>
