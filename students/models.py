@@ -44,28 +44,32 @@ class Profile(models.Model):
     cl = '07'
     cst = '22'
     eee = '08'
-    ma = '23'
+    mnc = '23'
     ph = '21'
-    rt = '54'
     hss = '41'
     enc = '51'
     env = '52'
     nt = '53'
+    crt = '54'
     lst = '55'
+    ds = '61'
+    emob = '63'
 
     department_values = (
         (cse, 'Computer Science & Engineering'),
         (ece, 'Electronics & Communication Engineering'),
         (me, 'Mechanical Engineering'),
         (ce, 'Civil Engineering'),
+        (crt, 'Centre for Rural Technology'),
         (dd, 'Design'),
+        (ds, 'Data Science'),
+        (emob, 'E-Mobility'),
         (bsbe, 'Biosciences & Bioengineering'),
         (cl, 'Chemical Engineering'),
         (cst, 'Chemical Science & Technology'),
         (eee, 'Electronics & Electrical Engineering'),
-        (ma, 'Mathematics & Computing'),
+        (mnc, 'Mathematics & Computing'),
         (ph, 'Engineering Physics'),
-        (rt, 'Rural Technology'),
         (hss, 'Humanities & Social Sciences'),
         (enc, 'Centre for Energy'),
         (env, 'Centre for Environment'),
