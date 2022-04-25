@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Testimonial, PollAnswer, PollQuestion, ProfileAnswers, ProfileQuestion, Profile, Announcement, Leaderboard
+from .models import Testimonial, PollAnswer, PollQuestion, ProfileAnswers, ProfileQuestion, Profile, Announcement, Leaderboard, Team_Member
 from django.db.models.functions import Length, Lower
 from PIL import Image, ImageOps
 import os
@@ -708,16 +708,21 @@ def team(request):
             logged_in = False
         if logged_in:
             user = User.objects.filter(username=request.user.username).first()
+            members = Team_Member.objects.all().order_by('position')
             context = {
                 'user': user,
-                'logged_in': logged_in
+                'logged_in': logged_in,
+                'team_members': members
             }
-            return render(request, 'team.html', context)
+            print(members)
+            return render(request, 'team_mem.html', context)
         else:
+            members = Team_Member.objects.all().order_by('position')
             context = {
-                'logged_in': logged_in
+                'logged_in': logged_in,
+                'team_members': members
             }
-            return render(request, 'team.html', context)
+            return render(request, 'team_mem.html', context)
     else:
         return error404(request)
 
