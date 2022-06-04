@@ -28,6 +28,6 @@ Send a pull request with clear details including the brief documnetation and a p
 
 ## Contributors
 
-<a href = "https://github.com/Student-Alumni-Interaction-Linkage-IITG/YearBook/graphs/contributors">
+<!-- <a href = "https://github.com/Student-Alumni-Interaction-Linkage-IITG/YearBook/graphs/contributors">
   <img src = "https://contrib.rocks/image?repo = Student-Alumni-Interaction-Linkage-IITG/YearBook"/>
-</a>
+</a> -->
