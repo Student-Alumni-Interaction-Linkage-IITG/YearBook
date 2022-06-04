@@ -26,7 +26,7 @@ $ python manage.py runserver
 
 Send a pull request with clear details including the brief documnetation and a picture ( in case of any frontend changes ).
 
-## Contributors
+<!-- ## Contributors -->
 
 <!-- <a href = "https://github.com/Student-Alumni-Interaction-Linkage-IITG/YearBook/graphs/contributors">
   <img src = "https://contrib.rocks/image?repo = Student-Alumni-Interaction-Linkage-IITG/YearBook"/>
