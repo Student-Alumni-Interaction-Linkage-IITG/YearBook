@@ -11,22 +11,73 @@ import re
 from yearbook.settings import BASE_DIR, MEDIA_ROOT, POLL_STOP, PORTAL_STOP, PRODUCTION
 import collections
 from datetime import timedelta
+from functools import wraps
+from django.contrib import messages
 
 # Create your views here.
 
 profile_pic_upload_folder = os.path.join(MEDIA_ROOT, Profile.profile_pic.field.upload_to)
 
+def remove_emoji(string):
+    emoji_pattern = re.compile("["
+                               u"\U0001F600-\U0001F64F"  # emoticons
+                               u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                               u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                               u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                               u"\U00002500-\U00002BEF"  # chinese char
+                               u"\U00002702-\U000027B0"
+                               u"\U00002702-\U000027B0"
+                               u"\U000024C2-\U0001F251"
+                               u"\U0001f926-\U0001f937"
+                               u"\U00010000-\U0010ffff"
+                               u"\u2640-\u2642"
+                               u"\u2600-\u2B55"
+                               u"\u200d"
+                               u"\u23cf"
+                               u"\u23e9"
+                               u"\u231a"
+                               u"\ufe0f"  # dingbats
+                               u"\u3030"
+                               "]+", flags=re.UNICODE)
+    # print("Emojis Removed :)")
+    return emoji_pattern.sub(r'', string)
 
 def votes_sort_key(item):
     return len(item[1])
 
-
 def nominees_sort_key(item):
     return item.full_name
 
+def is_edited(func ):
+    @wraps(func)
+    def wrapper(request,  *args, **kwargs):
+        user = User.objects.filter(username=request.user.username).first()
+        profile = Profile.objects.filter(user=user).first()
+        if user.is_superuser:
+                return func(request,  *args, **kwargs)
+        if profile.gmailid == "" or profile.address == "" or len(profile.phoneno) != 10 :
+            messages.warning(request, "Please update all the required profile fields (i.e., phone number, address and gmail id) to continue!" )
+            errors = [0, 0]
+            context = {
+                'updated': False,
+                'user': user,
+                'profile': profile,
+                'errors': errors,
+                'logged_in': True
+            }
+            return render(request, 'editprofile.html', context)
+            # return render(request, 'editprofile.html')
+        else :
+            return func(request,  *args, **kwargs)
+    
+    return wrapper
+        
+
 
 @login_required
+@is_edited
 def home(request):
+    # print("hii")
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
             logged_in = True
@@ -89,7 +140,9 @@ def home(request):
 
 
 @login_required
+@is_edited
 def profile(request, username):
+    
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
             user = User.objects.filter(username=request.user.username).first()
@@ -166,7 +219,9 @@ def profile(request, username):
 
 
 @login_required
+@is_edited
 def search(request):
+    print("hiisasaa")
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
             user = User.objects.filter(username=request.user.username).first()
@@ -217,7 +272,17 @@ def search(request):
 
 def login(request):
     if request.method == 'GET':
-        if request.user and not request.user.is_anonymous:
+        # profile = Profile.objects.filter(user=user).first()
+        # if profile.gmailid == "":
+        #     user = User.objects.filter(username=request.user.username).first()
+        #     context = {
+        #         'logged_in': True,
+        #         'user': user,
+        #         'production': PRODUCTION
+        #     }
+        #     return render(request, 'editprofile.html', context)
+
+        if request.user and not request.user.is_anonymous :
             user = User.objects.filter(username=request.user.username).first()
             context = {
                 'logged_in': True,
@@ -238,6 +303,7 @@ def login(request):
 
 
 @login_required
+
 def edit_profile(request):
     if request.method == 'GET':
         user = User.objects.filter(username=request.user.username).first()
@@ -266,6 +332,7 @@ def edit_profile(request):
             else:
                 errors[0] = 1
             new_bio = request.POST.get("bio", "")
+            new_bio = remove_emoji(new_bio)
             if len(new_bio) <= 500:
                 profile.bio = new_bio
             else:
@@ -357,6 +424,7 @@ def upload_profile_pic(request):
 
 
 @login_required
+@is_edited
 def add_testimonial(request, username):
     if request.method == 'GET':
         return error404(request)
@@ -373,6 +441,7 @@ def add_testimonial(request, username):
                     return JsonResponse(
                         {'status': 0, 'error': "You can't write a testimonial for non-graduating batch"})
                 content = request.POST.get("content", "")
+                content = remove_emoji(content)
                 if len(content) <= 400 and content != "":
                     old_testimonial = Testimonial.objects.filter(given_to=given_to_profile,
                                                                  given_by=given_by_profile).first()
@@ -394,6 +463,7 @@ def add_testimonial(request, username):
 
 
 @login_required
+@is_edited
 def delete_testimonial(request):
     if request.method == 'GET':
         return error404(request)
@@ -417,6 +487,7 @@ def delete_testimonial(request):
 
 
 @login_required
+@is_edited
 def favourite_testimonial(request):
     if request.method == 'GET':
         return error404(request)
@@ -450,6 +521,7 @@ def favourite_testimonial(request):
 
 
 @login_required
+@is_edited
 def change_answer(request, username):
     if request.method == 'GET':
         return error404(request)
@@ -490,6 +562,7 @@ def change_answer(request, username):
 
 
 @login_required
+@is_edited
 def add_vote(request):
     if request.method == 'GET':
         return error404(request)
@@ -538,6 +611,7 @@ def error404(request):
 
 
 @login_required
+@is_edited
 def polls(request):
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
@@ -601,6 +675,7 @@ def polls(request):
 
 
 @login_required
+@is_edited
 def write_testimonial(request):
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
@@ -653,6 +728,7 @@ def team(request):
 
 
 @login_required
+@is_edited
 def leaderboard(request):
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
@@ -662,24 +738,20 @@ def leaderboard(request):
         if logged_in:
             user = User.objects.filter(username=request.user.username).first()
 
-            sorted_leaderboard = Leaderboard.objects.all().order_by('-pub_date')
+            lead = (Leaderboard.objects.all().order_by('-pub_date'))[0]
             sorted_d = []
-            last_updated = "--/--/----"
-            if(sorted_leaderboard.count() > 0):
-                lead = sorted_leaderboard[0]
-                if lead.profile_0 is not None:
-                    sorted_d.append((lead.profile_0,lead.cnt_0))
-                    sorted_d.append((lead.profile_1,lead.cnt_1))
-                    sorted_d.append((lead.profile_2,lead.cnt_2))
-                    sorted_d.append((lead.profile_3,lead.cnt_3))
-                    sorted_d.append((lead.profile_4,lead.cnt_4))
-                    sorted_d.append((lead.profile_5,lead.cnt_5))
-                    sorted_d.append((lead.profile_6,lead.cnt_6))
-                    sorted_d.append((lead.profile_7,lead.cnt_7))
-                    sorted_d.append((lead.profile_8,lead.cnt_8))
-                    sorted_d.append((lead.profile_9,lead.cnt_9))
-                    last_updated = (lead.pub_date + timedelta(hours=5,minutes=30)).strftime("%H:%M, %b %d")
-                announce=list(Announcement.objects.all().order_by('-pub_date'))
+            sorted_d.append((lead.profile_0,lead.cnt_0))
+            sorted_d.append((lead.profile_1,lead.cnt_1))
+            sorted_d.append((lead.profile_2,lead.cnt_2))
+            sorted_d.append((lead.profile_3,lead.cnt_3))
+            sorted_d.append((lead.profile_4,lead.cnt_4))
+            sorted_d.append((lead.profile_5,lead.cnt_5))
+            sorted_d.append((lead.profile_6,lead.cnt_6))
+            sorted_d.append((lead.profile_7,lead.cnt_7))
+            sorted_d.append((lead.profile_8,lead.cnt_8))
+            sorted_d.append((lead.profile_9,lead.cnt_9))
+            last_updated = (lead.pub_date + timedelta(hours=5,minutes=30)).strftime("%H:%M, %b %d")
+            announce=list(Announcement.objects.all().order_by('-pub_date'))
 
             context = {
                 'user': user,
@@ -696,6 +768,7 @@ def leaderboard(request):
 
 
 @login_required
+@is_edited
 def update_leaderboard(request):
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:
@@ -708,10 +781,6 @@ def update_leaderboard(request):
                 given_to_list = [testi.given_to for testi in Testimonial.objects.all()]
                 given_to_counter = collections.Counter(given_to_list)
                 sorted_d = sorted(given_to_counter.items(), key=lambda x: x[1], reverse=True)
-                if(len(sorted_d) == 0):
-                    Leaderboard.objects.create()
-                    return HttpResponseRedirect(reverse('leaderboard'))
-
                 if len(sorted_d)>10:
                     sorted_d=sorted_d[0:10]
                 while len(sorted_d)<10:
@@ -747,6 +816,7 @@ def update_leaderboard(request):
 
 
 @login_required
+@is_edited
 def auto_mark_favs(request):
     if request.method == 'GET':
         if request.user and not request.user.is_anonymous:

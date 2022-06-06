@@ -11,7 +11,7 @@
                 {% for mem in team_members %}
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 my-2">
                     <div class="card" style="width: 18rem;">
-                        <img src="/media/{{mem.profile_pic}}" class="card-img-top" style="width: 18rem; height: 18rem;" alt="">
+                        <img src="{{mem.profile_pic.url}}" class="card-img-top" style="width: 18rem; height: 18rem;" alt="">
                         <div class="card-body">
                             <h5 class="card-title"><a href={{mem.linkedin}} target="_blank">{{mem.name}}</a></h5>
                             <p class="card-text">{{mem.position}}<br>SAIL</p>
