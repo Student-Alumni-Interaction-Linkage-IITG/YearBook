@@ -1,0 +1,799 @@
+-- -- -- important
+-- run the following command to set the client side encoding to utf8. Otherwise when you download csv file 
+-- data gets encoded in someother form. 
+SET CLIENT_ENCODING TO 'UTF8';
+
+select given_to_id, 
+array_agg(given_by_id) as given_by_ids, 
+array_agg(content) as tests
+ into array_table
+from students_testimonial
+group by given_to_id;
+
+create table final_table as
+select given_to_id,
+given_by_ids[1] as test1by,
+tests[1] as test1 from array_table;
+
+do $$
+declare 
+f1 varchar(100) := 'test';
+f2 varchar(100) := 'by';
+f3 varchar(100) := '';
+f4 varchar(100) := '';
+begin 
+	for i in 2..146 loop
+		f3 = concat(f1,cast(i as varchar));
+		f4 = concat(f3,f2);		execute format('alter table final_table add column %s integer, add column %s text',f4,f3);
+		
+		execute format('update final_table ft
+		set %s = arr.given_by_ids[%s], %s = arr.tests[%s]
+		from array_table arr
+		where arr.given_to_id = ft.given_to_id;',f4,i,f3,i);
+	end loop;
+end;
+$$
+
+select * from final_table order by given_to_id;
+
+select
+given_to_id,
+test1by,test1,test2by,test2,test3by,test3,test4by,test4,test5by,test5,test6by,test6
+into ultra_final_table
+from final_table order by given_to_id;
+
+select * from ultra_final_table;
+
+alter table ultra_final_table add column sub_given_to_id text;
+
+update ultra_final_table uft
+set sub_given_to_id = concat(cast(given_to_id as text), '_1');
+
+do $$
+<<outer_loop>>
+declare 
+f varchar(100) := 'tab_';
+tab_name varchar(100) := '';
+counter int := 1;
+ff varchar(100) = '';
+col_name varchar(100) = '';
+begin
+-- here n is max no of testimonials written to a person
+for i in 1..144 by 6 begin loop
+	col_name = cast(counter as text);
+	
+ 	tab_name = concat(f,cast(counter as varchar));
+	
+ 	execute format('create table %s as
+ 	select given_to_id from array_table;',tab_name);
+	
+ 	<<loop2>>
+ 	declare
+ 	f1 varchar(100) := 'test';
+	f2 varchar(100) := 'by';
+ 	f3 varchar(100) := '';
+ 	f4 varchar(100) := '';
+ 	f5 varchar(100) := '';
+ 	f6 varchar(100) := '';
+ 	begin
+ 	for i1 in 1..6 loop
+ 		f3 = concat(f1,cast(i1 as varchar));
+ 		f4 = concat(f3,f2);
+ 		f5 = concat(f1,cast((i + i1 -1) as varchar));
+ 		f6 = concat(f5,f2);
+  		execute format('alter table %s add column %s integer, add column %s text',outer_loop.tab_name,f4,f3);
+		
+   		execute format('update %s 
+  					   set %s = ft.%s , %s = ft.%s
+  					   from final_table ft
+  					   where ft.given_to_id=%s.given_to_id',
+ 					   outer_loop.tab_name,f4,f6,f3,f5,outer_loop.tab_name);
+					   
+  	end loop;
+ 	end loop2;
+	
+  	execute format('alter table %s add column sub_given_to_id text',outer_loop.tab_name);
+ 	execute format(E'update %s 
+ 				   set sub_given_to_id = concat( cast(given_to_id as text), \'_\', %s  )',
+ 				   outer_loop.tab_name,col_name);
+				   
+	counter := counter + 1;
+end loop;
+end outer_loop;
+$$
+
+do $$
+declare
+f varchar(100) = 'tab_';
+ff varchar(100) = '';
+begin
+for i in 2..25 loop
+ff = concat(f,cast(i as varchar));
+ execute format('insert into ultra_final_table select * from %s ',ff);
+end loop;
+end;
+$$
+
+-- adding rollno and name col
+alter table ultra_final_table 
+add column username text,
+add column rollno integer,
+add column sub_rollno text;
+
+update ultra_final_table
+set 
+username = sp.full_name,
+rollno = sp.rollno,
+sub_rollno = concat(cast(sp.rollno as text),substring(sub_given_to_id,length(sub_given_to_id)-2,length(sub_given_to_id)))
+from students_profile sp
+where given_to_id = sp.id;
+
+select 
+sub_rollno,username,
+test1by,test1,test2by,test2,test3by,test3,test4by,test4,test5by,test5,test6by,test6
+from ultra_final_table order by given_to_id,sub_given_to_id;
+
+delete from ultra_final_table where test1by isnull;
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- for testimonails written by table -- -- -- -- -- -- -- --------
+
+select given_by_id, 
+array_agg(given_to_id) as given_to_ids, 
+array_agg(content) as tests
+into array_table2
+from students_testimonial
+group by given_by_id;
+
+select * from array_table2;
+
+select count(given_to_id), given_by_id 
+from students_testimonial 
+group by given_by_id 
+order by count(given_to_id) desc;
+
+create table final_table2 as
+select given_by_id,
+given_to_ids[1] as test1to,
+tests[1] as test1 from array_table2;
+
+select * from final_table2;
+
+do $$
+declare 
+f1 varchar(100) := 'test';
+f2 varchar(100) := 'to';
+f3 varchar(100) := '';
+f4 varchar(100) := '';
+begin 
+	for i in 2..158 loop
+		f3 = concat(f1,cast(i as varchar));
+		f4 = concat(f3,f2);
+		execute format('alter table final_table2 add column %s integer, add column %s text',f4,f3);
+		
+		execute format('update final_table2 ft
+		set %s = arr.given_to_ids[%s], %s = arr.tests[%s]
+		from array_table2 arr
+		where arr.given_by_id = ft.given_by_id;',f4,i,f3,i);
+	end loop;
+end;
+$$
+
+-- adding rollno and name column 
+alter table ultra_final_table2 
+add column username text,
+add column rollno integer,
+add column sub_rollno text;
+
+update ultra_final_table2
+set 
+username = sp.full_name,
+rollno = sp.rollno,
+sub_rollno = concat(cast(sp.rollno as text),substring(sub_given_by_id,length(sub_given_by_id)-2,length(sub_given_by_id)))
+from students_profile sp
+where given_by_id = sp.id;
+
+select * from final_table2 order by given_by_id;
+
+-- copy first 6 testimonials into ultra final table
+select
+given_by_id,
+test1to,test1,test2to,test2,test3to,test3,test4to,test4,test5to,test5,test6to,test6
+into ultra_final_table2
+from final_table2 order by given_by_id;
+
+select * from ultra_final_table2 order by given_by_id,sub_given_by_id;
+
+alter table ultra_final_table2 add column sub_given_by_id text;
+
+update ultra_final_table2 
+set sub_given_by_id = concat(cast(given_by_id as text),'_1');
+
+do $$
+<<outer_loop>>
+declare 
+f varchar(100) := 'tab';
+tab_name varchar(100) := '';
+counter int := 1;
+ff varchar(100) = '';
+col_name varchar(100) = '';
+begin
+-- here n is max no of testimonials written to a person
+for i in 7..156 by 6 begin loop
+	col_name = cast(counter as text);
+ 	tab_name = concat(f,col_name);
+ 	execute format('create temp table %s as
+ 	select given_by_id from array_table2;',tab_name);
+	
+ 	<<loop2>>
+ 	declare
+ 	f1 varchar(100) := 'test';
+	f2 varchar(100) := 'to';
+ 	f3 varchar(100) := '';
+ 	f4 varchar(100) := '';
+ 	f5 varchar(100) := '';
+ 	f6 varchar(100) := '';
+ 	begin
+ 	for i1 in 1..6 loop
+ 		f3 = concat(f1,cast(i1 as varchar));
+ 		f4 = concat(f3,f2);
+ 		f5 = concat(f1,cast((i + i1 -1) as varchar));
+ 		f6 = concat(f5,f2);
+  		execute format('alter table %s add column %s integer, add column %s text',outer_loop.tab_name,f4,f3);
+		
+   		execute format('update %s 
+  					   set %s = ft.%s , %s = ft.%s
+  					   from final_table2 ft
+  					   where ft.given_by_id=%s.given_by_id',
+ 					   outer_loop.tab_name,f4,f6,f3,f5,outer_loop.tab_name);
+					   
+  	end loop;
+ 	end loop2;
+	
+  	execute format('alter table %s add column sub_given_by_id text',outer_loop.tab_name);
+ 	execute format(E'update %s 
+ 				   set sub_given_by_id = concat( cast(given_by_id as text), \'_\', %s  )',
+ 				   outer_loop.tab_name,col_name);
+ 	execute format('insert into ultra_final_table2 select * from %s where %s != 1',outer_loop.tab_name,counter);
+	counter := counter + 1;
+end loop;
+end outer_loop;
+$$
+
+drop table if exists tab2;
+create table tab2 as select given_by_id from array_table2;
+alter table tab2 
+add column test1to integer, 
+add column test1 text,
+add column test2to integer, 
+add column test2 text,
+add column test3to integer, 
+add column test3 text,
+add column test4to integer, 
+add column test4 text,
+add column test5to integer, 
+add column test5 text,
+add column test6to integer, 
+add column test6 text ;
+
+update tab2 set
+test1to = ft.test157to, 
+test1 = ft.test157,
+test2to = ft.test158to, 
+test2 = ft.test158
+from final_table2 ft
+where ft.given_by_id = tab2.given_by_id;
+alter table tab2 add column sub_given_by_id text;
+update tab2 set sub_given_by_id = concat( cast(given_by_id as text), '_27');
+insert into ultra_final_table2 select * from tab2; 
+
+delete from ultra_final_table2 where test1to isnull;
+
+select
+given_by_id,sub_given_by_id,
+test1to,test1,test2to,test2,test3to,test3,test4to,test4,test5to,test5,test6to,test6
+from ultra_final_table2 order by given_by_id,sub_given_by_id;
+
+-- -- -- -- -- -- -- table for first page of personal yearbook
+-- 1. Basic info -
+-- Rollno username dept branch profileans1 profileans2 . . profileans5 bio
+-- picaddress
+create table basic_info as 
+select id from students_profile 
+where graduating = true 
+order by id;
+
+alter table basic_info 
+add column rollno integer,
+add column username text,
+add column dept text,
+add column program text,
+add column pic_addr text;
+
+update basic_info bi
+set rollno = sp.rollno,
+username = sp.full_name,
+dept = sp.department,
+program = sp.program,
+pic_addr = sp.profile_pic
+from students_profile sp
+where sp.id = bi.id;
+
+do $$
+declare
+f varchar(100) := 'profileans';
+ff varchar(100) := '';
+begin
+for i in 1..5 loop
+ff = concat(f,cast(i as varchar));
+execute format('alter table basic_info add column %s text',ff);
+execute format('update basic_info bi
+			set %s = sp.answer
+			from students_profileanswers sp
+			where question_id = %s and bi.id = sp.profile_id',ff,i );
+end loop;
+end;
+$$
+
+
+select * from basic_info order by id;
+
+-- run the following block to remove line breaks from profile ans
+
+-- 
+create table dummy_given_to as 
+select 
+given_to_id,sub_given_to_id,
+test1by,test1,test2by,test2,test3by,test3,test4by,test4,test5by,test5,test6by,test6
+from ultra_final_table order by given_to_id,sub_given_to_id;
+
+create table dummy_given_by as
+select
+given_by_id,sub_given_by_id,
+test1to,test1,test2to,test2,test3to,test3,test4to,test4,test5to,test5,test6to,test6
+from ultra_final_table2 order by given_by_id,sub_given_by_id;
+
+
+do $$
+declare
+f varchar(100) = 'test';
+ff varchar(100) = '';
+begin
+for i in 1..6 loop
+ff = concat(f,cast(i as varchar));
+execute format(E'update dummy_given_by set %s = replace(%s,chr(13),\' \' )',ff,ff );
+end loop;
+end;
+$$
+
+select * from dummy_given_to order by given_to_id, sub_given_to_id;
+
+alter table dummy_given_to 
+add column username text,
+add column rollno integer,
+add column sub_rollno text;
+
+update dummy_given_to
+set 
+username = sp.full_name,
+rollno = sp.rollno,
+sub_rollno = concat(cast(sp.rollno as text),substring(sub_given_to_id,length(sub_given_to_id)-2,length(sub_given_to_id)))
+from students_profile sp
+where given_to_id = sp.id;
+
+update dummy_given_by
+set sub_rollno = concat(cast(rollno as varchar),substring(sub_given_by_id,length(sub_given_by_id)-2,length(sub_given_by_id)));
+
+update dummy_given_by dgb
+set username = sp.full_name
+from students_profile sp
+where given_by_id = sp.id;
+
+
+select * from temp_basic_info order by id;
+
+select * from students_profile order by id;
+
+alter table temp_basic_info add column bio text;
+
+update temp_basic_info bi
+set bio = sp.bio
+from students_profile sp
+where sp.id = bi.id;
+
+select id,rollno,username,bio,dept,program,pic_addr,profileans1,profileans2,profileans3,profileans4,profileans5
+from temp_basic_info order by id;
+
+update temp_basic_info set bio = replace(bio,chr(13),' ');
+
+
+select 
+sub_rollno,username,
+test1by,test1,test2by,test2,test3by,test3,test4by,test4,test5by,test5,test6by,test6
+from ultra_final_table order by given_to_id,sub_given_to_id;
+
+do $$
+declare
+f varchar(100) = 'test';
+ff varchar(100) = 'by';
+fff varchar(100) = '';
+f_new varchar(100) = '';
+begin
+for i in 1..6 loop
+fff = concat(f,cast(i as integer));
+fff = concat(fff,ff);
+f_new = concat('_',cast(i as integer),ff);
+ execute format('alter table dummy_given_to add column %s text',f_new);
+ execute format('update dummy_given_to set %s = sp.full_name from students_profile sp
+ 			   where %s = sp.id',f_new,fff);
+-- execute format(E'update dummy_given_by set %s = \' \' where %s isnull ',f_new,f_new);
+end loop;
+end;
+$$
+
+select * from dummy_given_to where _6by != ' ' ;
+
+select sub_rollno,username,
+_1by as test1by,test1,
+_2by as test2by,test2,
+_3by as test3by,test3,
+_4by as test4by,test4,
+_5by as test5by,test5,
+_6by as test6by,test6
+from dummy_given_to order by given_to_id,sub_given_to_id;
+
+select sub_rollno,username,
+_1to as test1to,test1,
+_2to as test2to,test2,
+_3to as test3to,test3,
+_4to as test4to,test4,
+_5to as test5to,test5,
+_6to as test6to,test6
+from dummy_given_by order by given_by_id,sub_given_by_id;
+
+select * from dummy_given_to order by given_to_id;
+
+select * from students_profile order by id;
+select * from students_profile where graduating = false;
+
+alter table dummy_given_to
+add column graduating bool;
+
+update dummy_given_to
+set graduating = sp.graduating
+from students_profile sp
+where dummy_given_to.rollno = sp.rollno;
+
+delete from dummy_given_to where graduating = false;
+
+alter table dummy_given_to drop column graduating;
+
+-- create left and right tables for testimonials
+
+create table given_by_left as
+select sub_rollno,username,
+_1to as test1to,test1,
+_2to as test2to,test2,
+_3to as test3to,test3,
+_4to as test4to,test4,
+_5to as test5to,test5,
+_6to as test6to,test6 from dummy_given_by
+where cast(substring(sub_rollno, 12,length(sub_rollno)) as integer)%2=0;
+
+create table given_by_right as
+select sub_rollno,username,
+_1to as test1to,test1,
+_2to as test2to,test2,
+_3to as test3to,test3,
+_4to as test4to,test4,
+_5to as test5to,test5,
+_6to as test6to,test6 from dummy_given_by
+where cast(substring(sub_rollno, 12,length(sub_rollno)) as integer)%2!=0;
+
+create table given_to_left as
+select sub_rollno,username,
+_1by as test1by,test1,
+_2by as test2by,test2,
+_3by as test3by,test3,
+_4by as test4by,test4,
+_5by as test5by,test5,
+_6by as test6by,test6 from dummy_given_to
+where cast(substring(sub_rollno, 12,length(sub_rollno)) as integer)%2=0;
+
+create table given_to_right as
+select sub_rollno,username,
+_1by as test1by,test1,
+_2by as test2by,test2,
+_3by as test3by,test3,
+_4by as test4by,test4,
+_5by as test5by,test5,
+_6by as test6by,test6 from dummy_given_to
+where cast(substring(sub_rollno, 12,length(sub_rollno)) as integer)%2!=0;
+
+alter table given_by_left add column sub_id text; 
+update given_by_left gbl
+set sub_id = dgb.sub_given_to_id
+from dummy_given_to dgb
+where gbl.sub_rollno = dgb.sub_rollno;
+
+select * from given_by_left order by sub_id;
+
+select dummy from given_to_right order by sub_id;
+
+alter table given_by_left drop column dummy ;
+update given_by_left
+ set sub_rollno = dummy
+-- set  dummy = concat(substring(sub_rollno,1,9), substring(sub_rollno,length(sub_rollno)-1,length(sub_rollno)))
+where substring(sub_rollno,10,11) like '%\_\_%';
+
+select * from given_to_right
+where substring(sub_rollno,10,11) like '%\_\_%';
+
+update given_by_left
+set sub_rollno = concat(substring(sub_rollno,1,9),'_', substring(sub_rollno,length(sub_rollno)-1,length(sub_rollno)))
+
+drop table given_by_left;
+select * from given_by_left where sub_id isnull;
+
+create table to_you_count as
+select rollno from temp_basic_info
+
+select id,rollno from temp_basic_info;
+
+alter table to_you_count add column count int;
+
+update to_you_count 
+set count = to_you.count_to_you
+from to_you
+where to_you.rollno = to_you_count.rollno;
+
+update to_you_count
+set count = 0
+where count isnull;
+select * from to_you_count order by count desc;
+
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- getting polls data -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+create table polls(
+	winner_id int,
+	vote_count int,
+	ques_id int,
+	ques varchar(200),
+	winner_name varchar(200),
+	pic_addr text
+);
+
+do $$
+declare
+f varchar(100) := 'poll';
+begin
+for i in 1..20 loop
+create table poll as
+select answer_id,count(answer_id) as cnt 
+			   from students_pollanswer 
+			   where question_id = i
+			   group by answer_id 
+			   order by cnt desc;
+alter table poll add column ques_id int;
+update poll set ques_id = i;
+
+insert into polls(winner_id,vote_count,ques_id)
+select * from poll limit 1;
+
+drop table poll;
+end loop;
+end;
+$$
+
+update polls
+set ques = pq.question
+from students_pollquestion pq
+where polls.ques_id = pq.id;
+
+update polls
+set winner_name = sp.full_name
+from students_profile sp
+where polls.winner_id = sp.id;
+
+update polls
+set pic_addr = tbi.pic_addr
+from temp_basic_info  tbi
+where polls.winner_name = tbi.username;
+
+select * from polls order by ques_id;
+
+select given_to_id,count(*), (count(*)/6)+1 as page_count into stats2 from students_testimonial group by given_to_id;
+
+select * from stats order by given_to_count;
+
+alter table stats add column full_name varchar(100), add column rollno int;
+
+update stats
+set rollno = students_profile.rollno
+set full_name = students_profile.full_name
+from students_profile
+where stats.given_by_id = students_profile.id;
+
+alter table stats add column given_to_count int, add column given_to_page_count int;
+
+update stats 
+set given_to_count = stats2.count,
+ given_to_page_count = stats2.page_count
+from stats2
+where stats.given_by_id = stats2.given_to_id;
+
+alter table stats
+rename count to given_by_count;
+
+alter table stats rename given_by_id to id;
+
+select 
+avg(given_by_count) as avg_given_by, 
+avg(given_by_page_count) as avg_by_page, 
+avg(given_to_count) as avg_to_count,
+avg(given_to_page_count) as avg_to_page,
+max(given_by_count) as max_given_by,
+max(given_by_page_count) as max_by_page,
+max(given_to_count) as max_given_to,
+max(given_to_page_count) as max_to_page,
+min(given_by_count) as min_given_by,
+min(given_by_page_count) as min_by_page,
+min(given_to_count) as min_given_to,
+min(given_to_page_count) as min_to_page
+from stats;
+
+
+select * from students_profile where full_name = 'SAHITHYA VEMURI';
+select * from students_testimonial where given_to_id = 332;
+select * from array_table where given_to_id = 332;
+
+select count(*) from students_testimonial;
+select count(*) from students_profile where graduating is true;
+
+-- high resolution personal yearbooks
+do $$
+declare 
+rolls = ['170101002', '170101006', '170101017', '170101022', '170101034', '170101035', '170101038', '170101054', '170101066', '170101072', '170101073', '170101076', '170101081', '170101086', '170102010', '170102022', '170102049', '170102076', '170102084', '170103084', '170103087', '170103088', '170104016', '170104058', '170106009', '170106039', '170106041', '170106047', '170106063', '170107014', '170107057', '170107072', '170108028', '170108030', '170108045', '170108049', '170108050', '170108051', '170121001', '170121006', '170121012', '170121014', '170121029', '170121035', '170121041', '170121048', '170122024', '170122042', '170123007', '170123018', '170123020', '170123024', '170123034', '170123042', '170123052', '170205006', '170205022', '170205027', '192121007', '192121027', '194102013', '194103306', '194205012', '194205015', '194205028', '45555556'];
+begin
+for i in 1..65 loop
+select * 
+end loop;
+end;
+$$
+select * from ba where 
+substring(sub_rollno,1,9) =  '170101002' or
+substring(sub_rollno,1,9) = '170101006' or
+substring(sub_rollno,1,9) = '170101017' or
+substring(sub_rollno,1,9) =  '170101022' or
+substring(sub_rollno,1,9) = '170101034' or
+substring(sub_rollno,1,9) = '170101035' or
+substring(sub_rollno,1,9) = '170101038' or
+substring(sub_rollno,1,9) = '170101054' or
+substring(sub_rollno,1,9) = '170101066' or
+substring(sub_rollno,1,9) = '170101072' or 
+substring(sub_rollno,1,9) = '170101073' or
+substring(sub_rollno,1,9) = '170101076' or
+substring(sub_rollno,1,9) = '170101081' or
+substring(sub_rollno,1,9) = '170101086' or
+substring(sub_rollno,1,9) = '170102010' or
+substring(sub_rollno,1,9) = '170102022' or
+substring(sub_rollno,1,9) = '170102049' or
+substring(sub_rollno,1,9) = '170102076' or
+substring(sub_rollno,1,9) = '170102084' or
+substring(sub_rollno,1,9) = '170103084' or
+substring(sub_rollno,1,9) = '170103087' or
+substring(sub_rollno,1,9) = '170103088' or
+substring(sub_rollno,1,9) = '170104016' or
+substring(sub_rollno,1,9) = '170104058' or
+substring(sub_rollno,1,9) = '170106009' or
+substring(sub_rollno,1,9) = '170106039' or
+substring(sub_rollno,1,9) = '170106041' or
+substring(sub_rollno,1,9) = '170106047' or
+substring(sub_rollno,1,9) = '170106063' or
+substring(sub_rollno,1,9) = '170107014' or
+substring(sub_rollno,1,9) = '170107057' or
+substring(sub_rollno,1,9) = '170107072' or
+substring(sub_rollno,1,9) = '170108028' or
+substring(sub_rollno,1,9) = '170108030' or
+substring(sub_rollno,1,9) = '170108045' or
+substring(sub_rollno,1,9) = '170108049' or
+substring(sub_rollno,1,9) = '170108050' or
+substring(sub_rollno,1,9) = '170108051' or
+substring(sub_rollno,1,9) = '170121001' or
+substring(sub_rollno,1,9) = '170121006' or
+substring(sub_rollno,1,9) = '170121012' or
+substring(sub_rollno,1,9) = '170121014' or
+substring(sub_rollno,1,9) = '170121029' or
+substring(sub_rollno,1,9) = '170121035' or
+substring(sub_rollno,1,9) = '170121041' or
+substring(sub_rollno,1,9) = '170121048' or
+substring(sub_rollno,1,9) = '170122024' or
+substring(sub_rollno,1,9) = '170122042' or
+substring(sub_rollno,1,9) = '170123007' or
+substring(sub_rollno,1,9) = '170123018' or
+substring(sub_rollno,1,9) = '170123020' or
+substring(sub_rollno,1,9) = '170123024' or
+substring(sub_rollno,1,9) = '170123034' or
+substring(sub_rollno,1,9) = '170123042' or
+substring(sub_rollno,1,9) = '170123052' or
+substring(sub_rollno,1,9) = '170205006' or
+substring(sub_rollno,1,9) = '170205022' or
+substring(sub_rollno,1,9) = '170205027' or
+substring(sub_rollno,1,9) = '192121007' or
+substring(sub_rollno,1,9) = '192121027' or
+substring(sub_rollno,1,9) = '194102013' or
+substring(sub_rollno,1,9) = '194103306' or
+substring(sub_rollno,1,9) = '194205012' or
+substring(sub_rollno,1,9) = '194205015' or
+substring(sub_rollno,1,9) = '194205028';
+
+
+-- 
+
+select * from students_profile where 
+rollno = 170101002 or
+rollno = 170101006 or
+rollno = 170101017 or
+rollno = 170101022 or
+rollno = 170101034 or
+rollno = 170101035 or
+rollno = 170101038 or
+rollno = 170101054 or
+rollno = 170101066 or
+rollno = 170101072 or 
+rollno = 170101073 or
+rollno = 170101076 or
+rollno = 170101081 or
+rollno = 170101086 or
+rollno = 170102010 or
+rollno = 170102022 or
+rollno = 170102049 or
+rollno = 170102076 or
+rollno = 170102084 or
+rollno = 170103084 or
+rollno = 170103087 or
+rollno = 170103088 or
+rollno = 170104016 or
+rollno = 170104058 or
+rollno = 170106009 or
+rollno = 170106039 or
+rollno = 170106041 or
+rollno = 170106047 or
+rollno = 170106063 or
+rollno = 170107014 or
+rollno = 170107057 or
+rollno = 170107072 or
+rollno = 170108028 or
+rollno = 170108030 or
+rollno = 170108045 or
+rollno = 170108049 or
+rollno = 170108050 or
+rollno = 170108051 or
+rollno = 170121001 or
+rollno = 170121006 or
+rollno = 170121012 or
+rollno = 170121014 or
+rollno = 170121029 or
+rollno = 170121035 or
+rollno = 170121041 or
+rollno = 170121048 or
+rollno = 170122024 or
+rollno = 170122042 or
+rollno = 170123007 or
+rollno = 170123018 or
+rollno = 170123020 or
+rollno = 170123024 or
+rollno = 170123034 or
+rollno = 170123042 or
+rollno = 170123052 or
+rollno = 170205006 or
+rollno = 170205022 or
+rollno = 170205027 or
+rollno = 192121007 or
+rollno = 192121027 or
+rollno = 194102013 or
+rollno = 194103306 or
+rollno = 194205012 or
+rollno = 194205015 or
+rollno = 194205028
+
+
