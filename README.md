@@ -12,6 +12,7 @@ $ virtualenv project-env
 $ source project-env/bin/activate
 $ cd YearBook/
 $ pip install -r requirements.txt
+$ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
 ```
