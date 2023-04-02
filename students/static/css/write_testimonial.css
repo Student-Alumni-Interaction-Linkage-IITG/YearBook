@@ -1,0 +1,218 @@
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans'); */
+body{
+    
+    background-image: linear-gradient(to right ,rgba(147, 5, 183, 0.473), rgba(255, 204, 0, 0.308));
+    /* background-color: black; */
+}
+.images{
+    margin-left: auto;
+    margin-right: auto;
+    padding: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 158px;
+    position: relative;
+    top: -0.01em;
+    width: 76vw;
+}
+.img-one
+{
+    height: 10vh;
+    width: 10vw;
+}
+
+* {
+    margin: 0%;
+}
+
+.links{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+.links a{
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
+
+.swiper
+{
+    width: 75%;
+    height: 45%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #CFB8FF;
+    border-radius: 8px;
+    padding-top: 30px;
+    padding-bottom: 78px;
+}
+
+.swiper .card
+{
+    width: 283px;
+    height: 283px;   
+    border-radius: 8px;
+    background-color: rgba(204, 0, 255, 0.473);
+    border: none;
+    margin-left: 16px;
+    margin-right: 16px;
+    
+}
+
+.swiper .card h3 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    color: #073B4C;
+    /* background-color: black; */
+}
+
+.swiper .card .desc {
+    /* margin-top: 3px; */
+    /* background-color: red; */
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #073B4C;
+    font-size: 17px;
+}
+
+.swiper .thumbnail {
+    width: 55%;
+    height: 55%;
+    background-color: white;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.swiper .thumbnail img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+    display: block;
+    margin-left: auto;
+    margin-top: auto;
+}
+
+@media screen and (max-width:1200px) and (min-width:1000px){
+    .links{
+        gap: 25px;
+    }
+    .links a{
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width:1000px) and (min-width:600px){
+    
+    .links{
+        font-size: 13px;
+        gap: 15px;
+    }
+}
+@media screen and (max-width: 600px) {
+    
+    .links, .in{
+        display: none;
+    }
+    .hamburg{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 4rem;
+        right: 0.2rem;
+        padding: 0px 18px;
+        border-radius: 15px;
+        border: 1px solid gray;
+        background-color: #FFFFFF;
+    }
+    a{
+        text-decoration: none;
+        color: #000;
+    }
+    .menu{
+        display: block;
+        width:26px;
+        height: 26px;
+    }
+}
+
+.testi{
+    margin-left: 17.5%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 30px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+}
+
+.text{
+    width:60%;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+   
+}
+
+
+
+.searchTerm {
+    width: 100%;
+    border: 3px  #9DBFAF;
+    border-right: none;
+    padding: 5px;
+    
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+}
+  
+.searchTerm:focus{
+    color: black;
+}
+  
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px  #9DBFAF;
+    background:white;
+    text-align: center;
+    color: #9DBFAF;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+  
+  /*Resize the wrap to see the search bar change!*/
+.wrap{
+    padding-top: 20px;
+    padding-bottom: 26px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.search-testi {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+

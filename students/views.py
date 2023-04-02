@@ -174,6 +174,12 @@ def profile(request, username):
                     answers = {}
                     for question in profile_questions:
                         answers[question] = profile_answers.filter(question=question).first()
+                    profiles = []
+                    for i in testimonials:
+                        profiles.append(i.given_by)
+                        print(i.given_by)
+                    print("Heko")
+                    testimonials = zip(testimonials,profiles)
                     context = {
                         'logged_in': True,
                         'myprofile': myprofile,
