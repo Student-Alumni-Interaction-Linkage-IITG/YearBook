@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html class="h-100">
+
 <head>
     <title>{% block title %}{% endblock %}</title>
     <!-- Google Fonts -->
@@ -24,17 +25,14 @@
     <!-- Bootstrap JS -->
     <script src="{% static 'js/popper-1.16.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap-4.4.1.min.js' %}"></script>
+    <link rel="stylesheet" href={% static 'css/navbar.css' %}>
 
     {% include 'messages.html' %}
 
 </head>
-<style >
+<style>
     a {
         color: teal;
-    }
-
-    body {
-        padding-top: 50px;
     }
 
     .panel-body .btn:not(.btn-block) {
@@ -42,91 +40,138 @@
         margin-bottom: 5px;
     }
 
-    .nav-link {
+    /* .nav-link {
         text-align: center;
         color: rgba(255, 255, 255, 0.99);
-    }
+    } */
 </style>
+
 <body class="d-flex flex-column h-100" style="font-family: 'Nunito', sans-serif;">
     {% if logged_in %}
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-0">
-            <a class="navbar-brand" href="{% url 'leaderboard' %}" style="font-size:x-large">
-                <img height="40" src="{% static 'img/sail_logo.png' %}"> SAIL Yearbook
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <form class="form-inline my-2 my-lg-0 mx-auto" method="get" action="{% url 'search' %}">
+    <nav>
+        <script>
+            const userclick = () => {
+                const userbox = document.getElementById('nav-hamburg2');
+                if (userbox.style.display == 'block') {
+                    userbox.style.display = 'none';
+                }
+                else {
+                    userbox.style.display = 'block'
+                }
+
+                const smallnav = document.getElementById('nav-hamburg');
+                smallnav.style.display = 'none';
+            }
+            const menuclick = () => {
+                const userbox = document.getElementById('nav-hamburg2');
+                const smallnav = document.getElementById('nav-hamburg');
+                if (smallnav.style.display == 'block') {
+                    smallnav.style.display = 'none';
+                }
+                else {
+                    smallnav.style.display = 'block'
+                }
+
+                userbox.style.display = 'none';
+            }
+        </script>
+
+        <!-- const [openMenu, setOpenMenu] = useState(false);
+            const [userClick, setUserClick] = useState(false); -->
+        <div class="navbar">
+            <div class="nav-images">
+                <img src={% static 'img/sail.svg' %} alt="SAIL" class="nav-sail" />
+                <img src={% static 'img/yearbook.svg' %} alt="YEARBOOK" class="nav-yearbook" />
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'leaderboard' %}">Home</a>
+                <a href="{% url 'write_testimonial' %}">Testimonials</a>
+                <a href="{% url 'polls' %}">Polls</a>
+                <a href="/leaderboard">Leaderboard</a>
+            </div>
+
+            <div class="nav-hamburg" id="nav-hamburg">
+                <ul>
+                    <li><a href="{% url 'leaderboard' %}">Home</a></li>
+                    <li><a href="{% url 'write_testimonial' %}">Testimonials</a></li>
+                    <li><a href="{% url 'polls' %}">Polls</a></li>
+                    <li><a href="/leaderboard">Leaderboard</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-search-cont">
+                <form class="nav-search-cont" method="get" action="{% url 'search' %}">
                     <div class="input-group">
-                        <input style="font-family: 'Nunito', sans-serif;" class="form-control" name="key" placeholder="Search for friends" autocomplete="off">
+                        <input type="text" class='nav-search-box' placeholder='Search for friend' name="key" />
+                        <!-- <button type="submit"> -->
+                        <!-- <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-search-icon">
+                            <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13.9996 13.9996L11.0996 11.0996" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg> -->
+                        <!-- </button> -->
+
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search" style="color: #3aafa9;"></i></button>
                         </div>
                     </div>
                 </form>
-                <ul class="navbar-nav">
-                
-                    <li class="nav-item">
-                        <a style="color: #FFF;" class="nav-link" href="{% url 'leaderboard' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a style="color: #FFF;" class="nav-link" href="{% url 'polls' %}">Polls</a>
-                    </li>
-                    <li class="nav-item">
-                        <a style="color: #FFF;" class="nav-link" href="{% url 'write_testimonial' %}">Write Testimonials</a>
-                    </li>
-                    <li class="nav-item">
-                        <a style="color: #FFF;" class="nav-link" href="{% url 'write_testimonial' %}#testimonials">Testimonials by You</a>
-                    </li>
-                    <li class="nav-item">
-                        <a style="color: #FFF;" class="nav-link" href="{% url 'profile' user.username %}">My Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a style="color: #FFF;" class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
+            </div>
+            <img src={% static 'img/bell.svg' %} alt="bell" class="nav-bell" />
+            <div class='profile_nav'>
+                <img src={% static 'img/userImg.svg' %} alt="USER" class="nav-user-img" onclick='userclick()' />
+            </div>
+            <div class="nav-hamburg2" id="nav-hamburg2" style="display: none;">
+                <ul>
+                    <li><a href="{% url 'profile' user.username %}">My Profile</a></li>
+                    <li><a href="#">Hidden Testimonials</a></li>
+                    <li><a href="{% url 'logout' %}">Log Out</a></li>
                 </ul>
             </div>
-        </nav>
+
+            <img src={% static 'img/menu.svg' %} alt="" class="nav-menu" onclick="menuclick()" />
+        </div>
+    </nav>
     {% else %}
-        <nav class="navbar-nav fixed-top navbar-expand-lg navbar-dark bg-dark py-0">
-            <a class="navbar-brand" href="{% url 'leaderboard' %}">
-                <img height="40" src="{% static 'img/sail_logo.png' %}"> SAIL Yearbook
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <form class="form-inline my-2 my-lg-0 mr-auto" method="get" action="{% url 'search' %}">
-                    <div class="input-group">
-                        <input class="form-control" name="key" placeholder="Search for friends" autocomplete="off">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
-                        </div>
+    <nav class="navbar-nav fixed-top navbar-expand-lg navbar-dark bg-dark py-0">
+        <a class="navbar-brand" href="{% url 'leaderboard' %}">
+            <img height="40" src="{% static 'img/sail_logo.png' %}"> SAIL Yearbook
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <form class="form-inline my-2 my-lg-0 mr-auto" method="get" action="{% url 'search' %}">
+                <div class="input-group">
+                    <input class="form-control" name="key" placeholder="Search for friends" autocomplete="off">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
                     </div>
-                </form>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'leaderboard' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                </div>
+            </form>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'leaderboard' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     {% endif %}
     <main class="flex-shrink-0 mt-3">
         {% block content %}{% endblock %}
     </main>
-    <footer class="footer mt-auto py-1 bg-dark">
+    <!-- <footer class="footer mt-auto py-1 bg-dark">
         <div class="container-fluid">
             <span class="text-muted float-right">
-                <a class="d-inline-block pl-0" style="color:white;" href="{% url 'team' %}"> Developed by SAIL <img height="40" src="{% static 'img/sail_logo.png' %}"> & Coding Club IITG <img height="40" src="{% static 'img/coding_club_logo.png' %}"></a></span>
+                <a class="d-inline-block pl-0" style="color:white;" href="{% url 'team' %}"> Developed by SAIL <img
+                        height="40" src="{% static 'img/sail_logo.png' %}"> & Coding Club IITG <img height="40"
+                        src="{% static 'img/coding_club_logo.png' %}"></a></span>
         </div>
-    </footer>
+    </footer> -->
     <!-- Disable Emoji -->
     <script src="{% static 'js/disable_emoji.js' %}"></script>
     {% block extrascripts %}{% endblock %}
 </body>
+
 </html>
