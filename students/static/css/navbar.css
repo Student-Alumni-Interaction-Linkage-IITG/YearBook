@@ -6,6 +6,8 @@
 }
 .navbar {
   background-color: rgb(28, 26, 26, 0.2);
+  /* opacity: 1; */
+  /* background-image: linear-gradient(to right ,rgba(147, 5, 183, 0.473), rgba(255, 204, 0, 0.308)); */
   width: 100vw;
   height: 76px;
   display: flex;

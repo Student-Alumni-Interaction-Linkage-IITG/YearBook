@@ -4,6 +4,56 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .MyProfileR_card {
+    display: flex;
+    height: auto;
+    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.MyProfileR_card_detail {
+    margin: 10px;
+}
+
+.MyProfileR_card_card_name {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 28px;
+}
+
+.MyProfileR_card_card_banch {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 10px;
+}
+
+.MyProfileR_card_img {
+    height: 156px;
+    width: 156px;
+    border-radius: 100%;
+    margin-top: 20px;
+}
+
+.MyProfileR_card_card_testimony {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 20px;
+}
+.MyProfileR_card_hr {
+    border: 1px solid white;
+}
+
+</style>
     <div class="container-fluid">
         <div class="row mb-2">
             {% if profile.graduating %}
@@ -11,7 +61,7 @@
                     <div class="container-fluid">
                         <div class="card shadow">
                             <div style="display: flex; justify-content: center;">
-                                <img class="card-img-top" style="border-radius: 50%;width: 80%;" width="100%" src="{{ profile.profile_pic.url }}" alt="Profile Picture"/>
+                                <img class="card-img-top" style="border-radius: 50%;width: 16vw;padding-top: 2vh;" width="100%" src="{{ profile.profile_pic.url }}" alt="Profile Picture"/>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title"><b style="display: flex; justify-content: center;">{{ profile.full_name }}</b></h5>
@@ -48,7 +98,7 @@
                     </div>
                     <div class="container-fluid">
                         {% for question,answer in answers.items %}
-                        <div class="card shadow">
+                        <div class="card shadow" style="margin-top: 2vh;">
                             <div class="card-header">
                                 <h6 class="mb-0">{{ question.question }}</h6>
                             </div>
@@ -58,8 +108,8 @@
                                 </div>
                                 {% if myprofile %}
                                     <p class="float-right mb-0">
-                                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#answer-modal-{{ question.id }}">
-                                            <i style="color: #3aafa9;" class="far fa-edit"></i>
+                                        <button type="button" class="btn" data-toggle="modal" data-target="#answer-modal-{{ question.id }}">
+                                            <i style="color: black;" class="far fa-edit"></i>
                                         </button>
                                     </p>
                                     <div class="modal fade" id="answer-modal-{{ question.id }}" tabindex="-1" role="dialog">
@@ -117,16 +167,58 @@
                                     </div>
                                 </div>
                             {% else %}
-                                <a class="btn btn-dark" style="width: 100%;" href="{% url 'write_testimonial' %}#testimonials">Testimonials by You</a>
+                                <a class="btn btn-dark" style="width: 100%;" href="{% url 'write_testimonial' %}#testimonials">Testimonials for You</a>
                             {% endif %}
                         {% else %}
                             <a class="btn btn-dark" style="width: 100%;" href="{% url 'login' %}?next={% url 'profile' profile.user.username %}">Login to add Testimonial</a>
                         {% endif %}
-                        {% for testimonial in testimonials %}
+                        {% for testimonial,profile in testimonials %}
+                        <div class="MyProfileR_card">
+                            <div class="MyProfileR_card_image">
+                              <img
+                                alt=""
+                                src="{{ profile.profile_pic.url }}"
+                                class="MyProfileR_card_img">
+                            </div>
+                            <div class="MyProfileR_card_detail">
+                              <div class="MyProfileR_card_card_name">{{profile.full_name}}</div>
+                              <div class="MyProfileR_card_card_banch">
+                                {{ profile.get_department_display }} ,
+                                    {{ profile.get_program_display }}
+                                    20{{ profile.rollno | stringformat:"i" | slice:":2" }}
+                              </div>
+                              <div class="MyProfileR_card_card_testimony">
+                                {{ testimonial.content | linebreaksbr }}
+                              </div>
+                              <div class="MyProfileR_card_card_buttons"></div>
+                            </div>
+                            <p style="position: absolute; right: 2.5vw;" >
+                                {% if myprofile %}
+                                    {% if testimonial.favourite %}
+                                        <button class="btn" onclick="favouriteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Remove the testimonial from favourites to not show it on your final Yearbook">
+                                            <i class="fa fa-heart" style="color: black;font-size: 20px;"></i>
+                                        </button>
+                                    {% else %}
+                                        <button class="btn" onclick="favouriteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Add the testimonial to favourites to show it on your final Yearbook">
+                                            <i class="fa fa-heart-o" style="color: black;font-size: 20px;"></i>
+                                        </button>
+                                    {% endif %}
+                                        <button class="btn" onclick="deleteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Delete the testimonial from your profile.">
+                                            <i class="fa fa-trash" style="color: black;font-size: 25px;"></i>
+                                        </button>
+                                {% elif testimonial.given_by.user == user %}
+                                    <button class="btn btn" data-toggle="modal" data-target="#testimonial-modal"><i style="color: black;font-family: 25px;" class="fas fa-edit"></i></button>
+                                    <button class="btn" onclick="deleteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Delete the testimonial from your profile.">
+                                        <i class="fa fa-trash" style="color: black;font-size: 25px;"></i>
+                                    </button>
+                                {% endif %}
+                            </p>
+                          </div>
+                          <hr class="MyProfileR_card_hr" />
+<!--                           
                             <div class="card shadow my-2 mx-lg-3" id="testimonial-{{ testimonial.id }}">
                                 <div class="card-body">
                                     <p class="card-text text-justify">
-                                        {{ testimonial.content | linebreaksbr }}
                                     </p>
                                     <p class="float-left my-0">
                                         {% if myprofile %}
@@ -153,7 +245,7 @@
                                         </a>
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                         {% endfor %}
                     </div>
                 </div>
