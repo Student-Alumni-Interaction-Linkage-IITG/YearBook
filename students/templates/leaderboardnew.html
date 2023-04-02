@@ -1,0 +1,213 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Leaderboard | SAIL
+Year Book Portal {% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- include the Slick library CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+
+    <!-- include the Slick library JS -->
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href={% static 'css/leaderboardnew.css' %} />
+    <title>Leaderboard</title>
+  </head>
+  <body>
+    <div class="leaderboard-page">
+      <!-- <Navbar/> -->
+      <div class="leaderboard-top">
+        <h1 class="leaderboard-title">Testimonials Leaderboard</h1>
+        <div class="leaderboard-top3">
+          <div class="leaderboard-second">
+            <div class="ldb-second-top">
+              <div class="second-posin"><div>2</div></div>
+              <div class="second-img-cont">
+                <img class="second-img" src={% static 'images/index3.jpg' %} >
+              </div>
+              <div class="second-testimonials">
+                <div class="cont"><div>2{{ second.votes }}</div></div>
+                <!--Remove the integer ^ when data is fetched from the database  -->
+              </div>
+            </div>
+
+            <div class="ldb-second-bottom">
+              <div class="second-name" style="font-size: 27; font-weight: 600">
+                {{ second.name}}
+              </div>
+              <div
+                class="second-branch-year"
+                style="font-size: 16; font-weight: 400"
+              >
+                {{ second.branch }}<br />{{ second.degree }}{{ second.year }}
+              </div>
+            </div>
+          </div>
+
+          <div class="leaderboard-first">
+            <div class="ldb-first-top">
+              <div class="first-posin"><div>1</div></div>
+              <div class="first-img-cont">
+                <img class="first-img" src={% static 'images/index3.jpg' %} >
+              </div>
+              <div class="first-testimonials">
+                <div class="cont"><div>1{{ first.votes}}</div></div>
+                <!--Remove the integer ^ when data is fetched from the database  -->
+              </div>
+            </div>
+
+            <div class="ldb-first-bottom">
+              <div class="first-name" style="font-size: 30; font-weight: 600">
+                {{ first.name}}
+              </div>
+              <div
+                class="first-branch-year"
+                style="font-size: 18; font-weight: 400"
+              >
+                {{ first.branch }}<br />{{ first.degree }}{{ first.year }}
+              </div>
+            </div>
+          </div>
+
+          <div class="leaderboard-third">
+            <div class="ldb-third-top">
+              <div class="third-posin"><div>3</div></div>
+              <div class="third-img-cont">
+                <img class="third-img" src={% static 'images/index3.jpg' %} >
+              </div>
+              <div class="third-testimonials">
+                <div class="cont"><div>3{{ third.votes }}</div></div>
+                <!--Remove the integer ^ when data is fetched from the database  -->
+              </div>
+            </div>
+
+            <div class="ldb-third-bottom">
+              <div class="third-name" style="font-size: 23; font-weight: 600">
+                {{ third.name }}
+              </div>
+              <div
+                class="third-branch-year"
+                style="font-size: 14.5; font-weight: 400"
+              >
+                {{ third.branch }}<br />{{ third.degree }}{{ third.year }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="leaderboard-bottom">
+        <!-- <Slider {...settings}> -->
+
+        <!-- <div class="leaderboard-carousel-item">
+          <div class="ldb-item-top">
+            <div class="item-img-cont"><div>
+                <img class="item-img" src={% static 'images/index3.jpg' %} >
+            </div></div>
+            <div class="item-testimonials">
+              <div class="cont"><div>{{ item.votes }}</div></div>
+            </div>
+          </div>
+          <div class="ldb-item-bottom">
+            <div class="item-name" style="font-size: 21; font-weight: 600">
+              {{ item.name }}
+            </div>
+            <div
+              class="item-branch-year"
+              style="font-size: 14; font-weight: 400"
+            >
+              {{ item.branch }}<br />{{ item.degree }}{{ item.year }}
+            </div>
+          </div>
+        </div> -->
+        <div class="carousel-container">
+          <div class="carousel-slider" style="display: flex;">
+            {% for user in lead_dict %}
+            <div class="carousel-slide">
+              <!-- <img src="{{ user.image_url }}"> -->
+              <img class="third-img" src={% static 'images/index3.jpg' %} >
+              <p>{{ user.name }}</p>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-prev">Prev</button>
+          <button class="carousel-next">Next</button>
+        </div>
+
+        <!-- </Slider> -->
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    // Acquire the variables from context, send 1st , 2nd, 3rd and then other people (object).
+    // Get the carousel slider element
+    const slider = document.querySelector(".carousel-slider");
+
+    // Get the previous and next buttons
+    const prevBtn = document.querySelector(".carousel-prev");
+    const nextBtn = document.querySelector(".carousel-next");
+
+    // Define the number of slides to show at a time
+    const slidesToShow = 4;
+
+    // Initialize the slide index
+    let slideIndex = 0;
+
+    // Set the width of each slide based on the number of slides to show
+    const slideWidth = 100 / slidesToShow;
+
+    // Set the width of the slider based on the number of slides and the slide width
+    slider.style.width = `${userDataList.length * slideWidth}%`;
+
+    // Loop through the user data and generate the HTML for each slide
+    for (let i = 0; i < userDataList.length; i++) {
+      // Create a new slide element
+      const slide = document.createElement("div");
+      slide.classList.add("carousel-slide");
+
+      // Create an image element and set its source to the user's image URL
+      const image = document.createElement("img");
+      image.src = userDataList[i].image_url;
+
+      // Create a paragraph element and set its text to the user's name
+      const name = document.createElement("p");
+      name.textContent = userDataList[i].name;
+
+      // Add the image and name elements to the slide element
+      slide.appendChild(image);
+      slide.appendChild(name);
+
+      // Add the slide element to the slider
+      slider.appendChild(slide);
+    }
+
+    // Define a function to handle scrolling to the next slide
+    function nextSlide() {
+      if (slideIndex < userDataList.length - slidesToShow) {
+        slideIndex++;
+        slider.style.transform = `translateX(-${slideIndex * slideWidth}%)`;
+      }
+    }
+
+    // Define a function to handle scrolling to the previous slide
+    function prevSlide() {
+      if (slideIndex > 0) {
+        slideIndex--;
+        slider.style.transform = `translateX(-${slideIndex * slideWidth}%)`;
+      }
+    }
+
+    // Add event listeners to the previous and next buttons
+    prevBtn.addEventListener("click", prevSlide);
+    nextBtn.addEventListener("click", nextSlide);
+    console.log("Hello World");
+  </script>
+</html>
+
+{% endblock %}

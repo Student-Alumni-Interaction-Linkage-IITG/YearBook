@@ -22,6 +22,7 @@ from social_django import urls as social_django_urls
 from students import views as student_views
 
 urlpatterns = [
+                  path('leaderboardnew/', student_views.leaderboardnew, name='leaderboardnew'),
                   path('', student_views.leaderboard, name='leaderboard'),
                   # path('login/', LoginView.as_view(template_name='login.html'), name='login'),
                   path('auto_mark_favs/', student_views.auto_mark_favs, name='auto_mark_favs'),

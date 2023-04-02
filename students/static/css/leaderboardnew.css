@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  margin: 0%;
+}
+
+.leaderboard-page {
+  width: 100%;
+  color: #073b4c;
+  margin-top: -1%;
+}
+.leaderboard-top {
+  /* z-index: 1; */
+  display: flex;
+  font-family: "Poppins";
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 455px;
+  background: rgba(207, 184, 255, 0.7);
+  mix-blend-mode: multiply;
+  border-bottom-left-radius: 140px;
+  border-bottom-right-radius: 140px;
+  box-shadow: 0px 8px 16px rgb(0, 0, 0, 0.15);
+}
+.leaderboard-title {
+  margin-top: 20px;
+  font-size: 35px;
+  color: #073b4c;
+}
+.leaderboard-top3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  margin-top: 5px;
+}
+.leaderboard-second {
+  width: 335px;
+  height: 388px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.leaderboard-third {
+  width: 257px;
+  height: 315px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.leaderboard-first {
+  width: 372px;
+  height: 438px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.ldb-second-top,
+.ldb-first-top,
+.ldb-third-top {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  align-items: flex-end;
+}
+.first-img-cont,
+.second-img-cont,
+.third-img-cont {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.first-img-cont {
+  margin-left: 22px;
+}
+
+.second-img-cont {
+  margin-left: 10px;
+}
+
+.second-img {
+  width: 15vw;
+  height: 15vw;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.first-img {
+  width: 17vw;
+  height: 17vw;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.third-img {
+  width: 13vw;
+  height: 13vw;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.second-posin {
+  font-size: 82.6px;
+  font-weight: 600;
+  color: #ee6055;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  left: 48px;
+}
+.first-posin {
+  font-size: 110px;
+  font-weight: 600;
+  color: #ee6055;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  left: 50px;
+}
+.third-posin {
+  font-size: 70px;
+  font-weight: 600;
+  color: #ee6055;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  left: 30px;
+}
+.second-testimonials,
+.first-testimonials,
+.third-testimonials {
+  height: 100%;
+}
+
+.second-testimonials div.cont,
+.first-testimonials div.cont,
+.third-testimonials div.cont {
+  background-color: #ee6055;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.second-testimonials div.cont {
+  width: 80px;
+  height: 80px;
+  font-size: 37px;
+  font-weight: 600;
+  position: relative;
+  right: 60px;
+}
+.first-testimonials div.cont {
+  width: 95px;
+  height: 95px;
+  font-size: 43px;
+  font-weight: 600;
+  position: relative;
+  right: 60px;
+}
+.third-testimonials div.cont {
+  width: 70px;
+  height: 70px;
+  font-size: 31px;
+  font-weight: 600;
+  position: relative;
+  right: 60px;
+}
+.ldb-second-bottom,
+.ldb-first-bottom,
+.ldb-third-bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.second-branch-year,
+.first-branch-year,
+.third-branch-year {
+  text-align: center;
+}
+
+.leaderboard-bottom {
+  width: 85%;
+  height: 30vh;
+  margin: 3vw auto;
+  display: flex;
+  font-family: "Poppins";
+}
+.leaderboard-carousel-item {
+  width: 243px;
+  /* height: 281px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.ldb-item-top {
+  width: 100%;
+  height: 55%;
+  display: flex;
+  justify-content: center;
+  /* align-items: flex-end; */
+}
+.item-img-cont {
+  height: 100%;
+  margin-left: 60px;
+  display: flex;
+  align-items: flex-start;
+}
+.item-img {
+  width: 166px;
+  height: 166px;
+  border-radius: 50%;
+  background-image: url("../../assets/leaderboard/index3.jpg");
+  background-size: cover;
+  /* background-repeat: no-repeat; */
+  background-position: center;
+}
+.item-testimonials {
+  height: 100%;
+}
+.item-testimonials div.cont {
+  background-color: #ee6055;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  font-size: 27px;
+  font-weight: 600;
+  position: relative;
+  right: 50px;
+}
+.ldb-item-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.item-branch-year {
+  text-align: center;
+}
+
+

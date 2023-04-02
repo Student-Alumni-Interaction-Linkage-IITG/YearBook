@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'phonenumber_field',
-    'students'
+    'students',
 ]
 
 MIDDLEWARE = [
