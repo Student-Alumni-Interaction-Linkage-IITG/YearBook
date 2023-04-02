@@ -3,36 +3,42 @@
 {% block title %} {{ profile.full_name }} | SAIL Year Book Portal {% endblock %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="container-fluid">
         <div class="row mb-2">
             {% if profile.graduating %}
                 <div class="col-xl-3 col-lg-12">
                     <div class="container-fluid">
                         <div class="card shadow">
-                            <img class="card-img-top" width="100%" src="{{ profile.profile_pic.url }}" alt="Profile Picture"/>
+                            <div style="display: flex; justify-content: center;">
+                                <img class="card-img-top" style="border-radius: 50%;width: 80%;" width="100%" src="{{ profile.profile_pic.url }}" alt="Profile Picture"/>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title"><b>{{ profile.full_name }}</b></h5>
-                                <h6 class="card-subtitle">
-                                    {{ profile.get_department_display }}
-                                    <br>
+                                <h5 class="card-title"><b style="display: flex; justify-content: center;">{{ profile.full_name }}</b></h5>
+                                <h6 class="card-subtitle" style="text-align: center;">
+                                    {{ profile.get_department_display }} ,
                                     {{ profile.get_program_display }}
-                                    <br>
                                     20{{ profile.rollno | stringformat:"i" | slice:":2" }}
                                 </h6>
                                 <br>
+                                {% if request.user == profile_user %}
                                 <div class="card-text">
                                     <h6><b>Phone Number</b></h6>
                                     <p>{{ profile.phoneno }}</p>
                                 </div>
+                                {% endif %}
                                 <div class="card-text">
-                                    <h6><b>Webmail</b></h6>
-                                    <p><a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></p>
-                                    <h6><b>Email</b></h6>
-                                    <p><a href="mailto:{{ profile.gmailid }}">{{ profile.gmailid }}</a></p>
-                                    <h6><b>Bio</b></h6>
-                                    <p>{{ profile.bio }}</p>
+                                    <p style="display: flex;justify-content: center;">
+                                        <a href="mailto:{{ profile.user.email }}"><i class="fa fa-envelope" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a>
+                                        <!-- need to change -->
+                                        <a href="mailto:{{ profile.user.email }}"><i class="fa fa-instagram" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
+                                        <a href="mailto:{{ profile.user.email }}"><i class="fa fa-linkedin" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
+                                    </p>
+                                    <p  style="display: flex; justify-content: center;">{{ profile.bio }}</p>
+                                    {% if profile.address == "" %}
                                     <h6><b>Address</b></h6>
-                                    <p>{{ profile.address }}</p>
+                                    <p style="display: flex; justify-content: center;">{{ profile.address }}</p>
+                                    {% endif %}
                                 </div>
                             </div>
                             {% if myprofile %}
@@ -40,11 +46,9 @@
                             {% endif %}
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-4 col-lg-12  mt-xl-0 mt-sm-4">
                     <div class="container-fluid">
                         {% for question,answer in answers.items %}
-                        <div class="card shadow my-2 mx-lg-3">
+                        <div class="card shadow">
                             <div class="card-header">
                                 <h6 class="mb-0">{{ question.question }}</h6>
                             </div>
@@ -84,7 +88,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-12 mt-xl-0 mt-sm-4">
+                <div class="col-xl-7 col-lg-12 mt-xl-0 mt-sm-4">
                     <div class="container-fluid">
                         <h3 class="text-center" style="font-weight: bold;">Testimonials</h3>
                         {% if logged_in and not user.is_superuser %}
