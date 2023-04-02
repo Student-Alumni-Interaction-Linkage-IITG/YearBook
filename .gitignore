@@ -5,3 +5,4 @@ venv/
 **/__pycache__
 yearbook/keys.py
 .DS_STORE
+project-env/
