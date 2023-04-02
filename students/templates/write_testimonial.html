@@ -4,7 +4,69 @@
 
 {% load static %}
 
+{% block extrastyles %} <link rel="stylesheet" href={% static 'css/write_testimonial.css' %}> {% endblock %}
+
+
 {% block content %}
+
+
+
+
+    <div class="testimonials">
+        <div class="images" >
+            <div class="img-one"><img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
+            <div class="img-two" ><img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
+            
+            <div class="img-three" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
+            <div class="img-four" > <img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
+            
+        </div>
+
+        <div class="testi">
+            <div class="img-five" > <img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
+            
+            <div class="text">
+                <h1 align="center">A lot of happy students...</h1>
+                <p align="center">"Life will never be the same without you" You are probably the most perfect people guy with beautiful heart falls easily for anyone having a few common traits. </p>
+            </div>
+            <div class="img-six" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
+        </div>
+        <div class="wrap">
+            <div class="search-testi">
+                <input class="searchTerm" type="text" id="search-input" onkeyup="searchFunction({{ profile }})" placeholder="Search for friends..." title="Type in a name"/>
+                <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="swiper" id="profile-links-flex">
+
+            {% for profile in profiles|slice:":3" %}
+                <a href="{% url 'profile' profile.user.username %}" style="text-decoration:none;">
+                    <div class="card">
+                        <div class="thumbnail">
+                            <img src={{ profile.profile_pic.url }} alt="Profile pic"/>
+                        </div>
+
+                        <h3>{{ profile.full_name }}</h3>
+
+                        <div class="desc">
+                            <p align="center" class="info">{{ profile.get_department_display }}, {{ profile.get_program_display }}, 20{{ profile.rollno | stringformat:"i" | slice:":2" }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+
+
+
+    {% comment %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-1 col-lg-12"></div>
@@ -65,7 +127,6 @@
                                     <div class="modal-body">
                                         <textarea id="add-testimonial-form-content-{{ testimonial.id }}" autocomplete="off" class="form-control" rows="5" name="content" placeholder="Write your testimonial for {{ profile.full_name }} here">{{testimonial.content}}</textarea>
                                         <br>
-                                        {% comment %} <span id="add-testimonial-char-count" class="badge badge-primary float-right my-1">0/500</span> {% endcomment %}
                                         <button class="btn btn-dark" style="width: 100%;" onclick="addTestimonial('{% url 'add_testimonial' testimonial.given_to.user.username %}', {{ testimonial.id }})">
                                             Edit testimonial
                                         </button>
@@ -79,12 +140,15 @@
             <div class="col-xl-1 col-lg-12"></div>
         </div>
     </div>
+    {% endcomment %}
+
+
 {% endblock %}
 
 {% block extrascripts %}
 
 <script>
-		function searchFunction() {
+		function searchFunction(profile) {
 			var input = document.getElementById("search-input");
 			var filter = input.value.toUpperCase();
 			var profile_flex = document.getElementById("profile-links-flex");
@@ -94,6 +158,14 @@
 				if (profile_button) {
 					var profile_name = profile_button.getElementsByTagName("p")[0].innerText;
 					if (profile_name.toUpperCase().indexOf(filter) > -1) {
+						profile_button.style.display = "";
+					}
+					else {
+						profile_button.style.display = "none";
+					}
+
+                    profile_name = profile_button.getElementsByTagName("h3")[0].innerText;
+                    if (profile_name.toUpperCase().indexOf(filter) > -1) {
 						profile_button.style.display = "";
 					}
 					else {
