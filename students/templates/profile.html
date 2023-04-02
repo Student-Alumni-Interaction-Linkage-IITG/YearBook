@@ -337,18 +337,9 @@
             filter = input.value.toUpperCase();
             cards = document.getElementsByClassName("MyProfileR_card");
             for (i = 0; i < cards.length; i++) {
-                title = cards[i].querySelector(".MyProfileR_card_card_banch")
-                if (title.innerText.toUpperCase().indexOf(filter) > -1) {
-                cards[i].style.display = "";
-                lines[i].style.display = "";
-                } else {
-                cards[i].style.display = "none";
-                lines[i].style.display = "none";
-                }
-            }
-            for (i = 0; i < cards.length; i++) {
-                title = cards[i].querySelector(".MyProfileR_card_card_name");
-                if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+                title1 = cards[i].querySelector(".MyProfileR_card_card_banch")
+                title2 = cards[i].querySelector(".MyProfileR_card_card_name")
+                if ((title1.innerText+title2.innerText).toUpperCase().indexOf(filter) > -1) {
                 cards[i].style.display = "";
                 lines[i].style.display = "";
                 } else {
