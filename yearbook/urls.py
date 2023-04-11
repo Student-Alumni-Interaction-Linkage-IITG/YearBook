@@ -35,6 +35,7 @@ urlpatterns = (
         path("admin/", admin.site.urls),
         path("oauth/", include(social_django_urls, namespace="social")),
         path("search/", student_views.search, name="search"),
+        path("search2/", student_views.search2, name="search2"),
         path("polls/", student_views.polls, name="polls"),
         path("leaderboard/", student_views.leaderboard, name="leaderboard"),
         path(

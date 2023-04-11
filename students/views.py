@@ -317,6 +317,67 @@ def search(request):
         return error404(request)
 
 
+@login_required
+@is_edited
+def search2(request):
+    print("hiisasaa")
+    if request.method == "GET":
+        if request.user and not request.user.is_anonymous:
+            user = User.objects.filter(username=request.user.username).first()
+            key = request.GET.get("key", "")
+            json = request.GET.get("json", "")
+            if key and key != "":
+                profiles = Profile.objects.filter(
+                    user__first_name__contains=key.upper(), graduating=True
+                )
+            else:
+                if json != "1":
+                    return HttpResponseRedirect(reverse("home"))
+                else:
+                    return JsonResponse([], safe=False)
+            profile_values = []
+            page_profiles = profiles.exclude(user=user)
+            more_profiles = False
+            if page_profiles.count() > 20:
+                more_profiles = True
+            if json == "1":
+                for profile in profiles[:10]:
+                    profile_values.append(
+                        {
+                            "username": profile.user.username,
+                            "name": profile.full_name,
+                        }
+                    )
+                return JsonResponse(profile_values, safe=False)
+            else:
+                context = {
+                    "logged_in": True,
+                    "user": user,
+                    "profiles": page_profiles[:20],
+                    "more_profiles": more_profiles,
+                }
+                return render(request, "search.html", context)
+        else:
+            key = request.GET.get("key", "")
+            if key and key != "":
+                profiles = Profile.objects.filter(
+                    user__first_name__contains=key.upper(), graduating=True
+                )
+            else:
+                return HttpResponseRedirect(reverse("home"))
+            more_profiles = False
+            if profiles.count() > 20:
+                more_profiles = True
+            context = {
+                "logged_in": False,
+                "profiles": profiles[:20],
+                "more_profiles": more_profiles,
+            }
+            return render(request, "search.html", context)
+    else:
+        return error404(request)
+
+
 def login(request):
     if request.method == "GET":
         if request.user and not request.user.is_anonymous:
@@ -353,6 +414,7 @@ def edit_profile(request):
             "profile": profile,
             "errors": errors,
             "logged_in": True,
+            "my_profile": profile,
         }
         return render(request, "editprofile.html", context)
     else:
@@ -408,6 +470,7 @@ def edit_profile(request):
                 "profile": profile,
                 "errors": errors,
                 "logged_in": True,
+                "my_profile": profile,
             }
             print(profile.linkedinid)
             print(profile.instaid)
@@ -887,7 +950,7 @@ def polls(request):
                         "logged_in": logged_in,
                         "my_profile": user_profile,  # to show profile pic in navbar
                     }
-                    return render(request, "polls.html", context)
+                    return render(request, "polls2.html", context)
                 else:
                     for question in poll_questions:
                         answers = PollAnswer.objects.filter(question=question)

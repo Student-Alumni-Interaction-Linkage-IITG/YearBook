@@ -163,10 +163,10 @@
                                     </div>
                                 </div>
                                 <script>
-                                   $("#vote-to-{{ question.0.id }}-nominate-search").keyup(function(){
+                                    $("#vote-to-{{ question.0.id }}-nominate-search").keyup(function(){
                                         $.ajax({
                                             type: "GET",
-                                            url: "{% url 'search' %}",
+                                            url: "{% url 'search2' %}",
                                             data: {
                                                 'key': $(this).val(),
                                                 'json': 1,
