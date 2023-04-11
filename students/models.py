@@ -87,6 +87,8 @@ class Profile(models.Model):
     graduating = models.BooleanField(default=False)
     address = models.CharField(max_length=500, default="")
     gmailid = models.CharField(default="", max_length=60)
+    instaid = models.CharField(default="", max_length=60)
+    linkedinid = models.CharField(default="", max_length=60)
     phoneno = models.CharField(validators=[only_int], max_length=10, default="")
 
     def __str__(self):
