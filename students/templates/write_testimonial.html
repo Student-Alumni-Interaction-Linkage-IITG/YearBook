@@ -1,55 +1,43 @@
+
 {% extends 'base.html' %}
 
 {% block title %} Profile Search | SAIL Year Book Portal {% endblock %}
 
 {% load static %}
 
-{% block extrastyles %} <link rel="stylesheet" href={% static 'css/write_testimonial.css' %}> {% endblock %}
+{% block extrastyles %} <link rel="stylesheet" type="text/css" href={% static 'css/write_testimonial.css' %}> {% endblock %}
 
 
 {% block content %}
 
 
 
-
     <div class="testimonials">
-        <div class="images" >
-            <div class="img-one"><img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
-            <div class="img-two" ><img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
-            
-            <div class="img-three" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
-            <div class="img-four" > <img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
-            
-        </div>
 
-        <div class="testi">
-            <div class="img-five" > <img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
-            
+        <div class="images">
+            <div class="img one"><img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
+            <div class="img two" ><img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
+            <div class="img three" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
+            <div class="img four" > <img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
+            <div class="img five" > <img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
+            <div class="img six" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
             <div class="text">
-                <h1 align="center">A lot of happy students...</h1>
-                <p align="center">"Life will never be the same without you" You are probably the most perfect people guy with beautiful heart falls easily for anyone having a few common traits. </p>
-            </div>
-            <div class="img-six" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
-        </div>
-        <div class="wrap">
-            <div class="search-testi">
-                <input class="searchTerm" type="text" id="search-input" onkeyup="searchFunction({{ profile }})" placeholder="Search for friends..." title="Type in a name"/>
-                <button type="submit" class="searchButton">
-                <i class="fa fa-search"></i>
-                </button>
+                <h1>A lot of happy students...</h1>
+                <div>
+                    <p>"Life will never be the same without you" You are probably the most perfect people guy with beautiful heart falls easily for anyone having a few common traits. </p>
+                </div>
             </div>
         </div>
 
         <div class="swiper" id="profile-links-flex">
-
             {% for profile in profiles|slice:":3" %}
-                <a href="{% url 'profile' profile.user.username %}" style="text-decoration:none;">
+                <a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;">
                     <div class="card">
                         <div class="thumbnail">
                             <img src={{ profile.profile_pic.url }} alt="Profile pic"/>
                         </div>
 
-                        <h3>{{ profile.full_name }}</h3>
+                        <h4>{{ profile.full_name }}</h4>
 
                         <div class="desc">
                             <p align="center" class="info">{{ profile.get_department_display }}, {{ profile.get_program_display }}, 20{{ profile.rollno | stringformat:"i" | slice:":2" }}</p>
@@ -57,163 +45,12 @@
                     </div>
                 </a>
             {% endfor %}
-
+            <div class="break"></div> <!-- break -->
+            <a href="{% url 'search' %}">See more >></a>
         </div>
+
     </div>
-
-
-
-
-
-
-    {% comment %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-1 col-lg-12"></div>
-            <div class="col-xl-4 col-lg-12" >
-                <div class="container-fluid">
-                    <h3 class="text-center" style="font-weight:bold;">Search for Graduating Students</h3>
-                    <div class="card">
-                        <div class="card-header">
-                            <input type="text" id="search-input" onkeyup="searchFunction()" placeholder="Search for names.." title="Type in a name"
-                                style="width:100%;height:2.5em;opacity:0.9;">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-around flex-wrap" id="profile-links-flex">
-                                    {% for profile in profiles %}
-                                        <a href="{% url 'profile' profile.user.username %}" class="m-2 btn btn-dark profile-link-button"
-                                        style="text-decoration:none;">{{ profile.full_name }} <p class="profile-link-text d-none" style="text-decoration:none;">
-                                        {{ profile.full_name }} {{ profile.user.first_name }}</p> </a>
-
-                                    {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-1 col-lg-12"></div>
-            <div class="col-xl-5 col-lg-12 mt-xl-0 mt-sm-4">
-                <div class="container-fluid">
-                    <h3 class="text-center" id="testimonials" style="font-weight: bold;">Testimonials by You</h3>
-                    {% for testimonial in testimonials %}
-                        <div class="card shadow my-2 mx-lg-3" id="testimonial-{{ testimonial.id }}">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    To
-                                    <a href="{% url 'profile' testimonial.given_to.user.username %}">
-                                        {{ testimonial.given_to.full_name }}
-                                    </a>
-                                </h5>
-                                <p class="card-text text-justify">
-                                    {{ testimonial.content | linebreaksbr }}
-                                </p>
-                                <p class="float-left my-0">
-                                    <button class="btn btn-dark" data-toggle="modal" data-target="#testimonial-modal-{{ testimonial.id }}"><i style="color: #3aafa9;" class="fas fa-edit"></i></button>
-                                </p>
-                                <p class="float-right my-0">
-                                    <button class="btn btn-dark" onclick="deleteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Delete the testimonial from your profile."><i style="color: #3aafa9;" class="fas fa-trash"></i></button>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="testimonial-modal-{{ testimonial.id }}" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h6 class="modal-title">{% if mytestimonial %} Edit {% else %} Add {% endif %}testimonial</h6>
-                                        <button type="button" class="close" data-dismiss="modal">
-                                            <span>&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <textarea id="add-testimonial-form-content-{{ testimonial.id }}" autocomplete="off" class="form-control" rows="5" name="content" placeholder="Write your testimonial for {{ profile.full_name }} here">{{testimonial.content}}</textarea>
-                                        <br>
-                                        <button class="btn btn-dark" style="width: 100%;" onclick="addTestimonial('{% url 'add_testimonial' testimonial.given_to.user.username %}', {{ testimonial.id }})">
-                                            Edit testimonial
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-xl-1 col-lg-12"></div>
-        </div>
-    </div>
-    {% endcomment %}
-
 
 {% endblock %}
 
-{% block extrascripts %}
 
-<script>
-		function searchFunction(profile) {
-			var input = document.getElementById("search-input");
-			var filter = input.value.toUpperCase();
-			var profile_flex = document.getElementById("profile-links-flex");
-			var profile_buttons = profile_flex.getElementsByTagName("a");
-			for (i = 0; i < profile_buttons.length; i++) {
-				var profile_button = profile_buttons[i];
-				if (profile_button) {
-					var profile_name = profile_button.getElementsByTagName("p")[0].innerText;
-					if (profile_name.toUpperCase().indexOf(filter) > -1) {
-						profile_button.style.display = "";
-					}
-					else {
-						profile_button.style.display = "none";
-					}
-
-                    profile_name = profile_button.getElementsByTagName("h3")[0].innerText;
-                    if (profile_name.toUpperCase().indexOf(filter) > -1) {
-						profile_button.style.display = "";
-					}
-					else {
-						profile_button.style.display = "none";
-					}
-				}
-			}
-		}
-		function deleteTestimonial(testimonial_id){
-            if (confirm("Do you want to delete the testimonial ?!\n It can't be recovered once deleted.")) {
-                $.ajax({
-                    type: "POST",
-                    url: '{% url "delete_testimonial" %}',
-                    data: {
-                        'testimonial_id': testimonial_id,
-                        'csrfmiddlewaretoken': Cookies.get("csrftoken")
-                    },
-                    success: function (data) {
-                        if (data.status === 1){
-                            $("#testimonial-"+testimonial_id.toString()).remove();
-                            alert(data.message);
-                            location.reload();
-                        }
-                        else{
-                            alert(data.error);
-                        }
-                    }
-                });
-            }
-
-        }
-        function addTestimonial(testimonialUrl, testimonialId) {
-            $.ajax({
-                type: "POST",
-                url: testimonialUrl,
-                data: {
-                    'content': $("#add-testimonial-form-content-"+testimonialId).val(),
-                    'csrfmiddlewaretoken': Cookies.get("csrftoken")
-                },
-                success: function (data) {
-                    if (data.status === 1){
-                        location.reload();
-                    }
-                    else{
-                        alert(data.error);
-                    }
-                }
-            });
-        }
-</script>
-{% endblock %}

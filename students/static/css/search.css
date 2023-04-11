@@ -1,0 +1,118 @@
+.nav-search-cont {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 16px;
+    gap: 16px;
+
+    width: 448px;
+    height: 44px;
+
+    /* Neutral / 50 */
+
+    background: #F7F8F9;
+    border-radius: 8px;
+}
+
+.nav-search-icon {
+    position: absolute;
+    left: 70%;
+    top: 30%;
+}
+
+.swiper
+{
+    padding: 32px;
+    position: absolute;
+    left: 52px;
+    right: 52px;
+    top: 115px;
+
+    background: rgba(255, 255, 255, 0.3);
+    /* Shadow (MD) */
+
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.swiper-flex{
+    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    /* display: grid;
+    grid-template-columns: repeat(4, 283px);
+    grid-auto-rows: 100px;
+    grid-gap: 32px;
+    width: 100vw; */
+}
+
+.swiper-flex .card
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 12px;
+
+    background: rgba(207, 184, 255, 0.7);
+    box-shadow: 0px 6px 12px rgba(216, 161, 216, 0.1);
+    border-radius: 8px;
+}
+
+.swiper-flex .card h4 {
+    width: 199px;
+    height: 28px;
+
+    /* Heading / H4 - Small / Semi Bold */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 28px;
+    /* identical to box height, or 122% */
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #073B4C;
+}
+
+.swiper-flex .card .desc {
+    width: 251px;
+    height: 55px;
+
+    /* Paragraph / P2 / Regular */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    /* or 119% */
+
+    text-align: center;
+
+    color: #073B4C;
+
+}
+
+.swiper-flex .thumbnail {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.swiper-flex .thumbnail img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+}
+

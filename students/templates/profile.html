@@ -99,16 +99,17 @@
                                 {% endif %}
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><b style="display: flex; justify-content: center;">{{ profile.full_name }}</b></h5>
+                                <h5 style="text-align: center;" class="card-title"><b style="display: flex; justify-content: center;">{{ profile.full_name }}</b></h5>
                                 <h6 class="card-subtitle" style="text-align: center;">
-                                    {{ profile.get_department_display }} ,
+                                    {{ profile.get_department_display }}
+                                    <br>
                                     {{ profile.get_program_display }}
                                     20{{ profile.rollno | stringformat:"i" | slice:":2" }}
                                 </h6>
                                 <br>
                                 {% if request.user == profile_user %}
                                 <div class="card-text">
-                                    <h6><b>Phone Number</b></h6>
+                                    <h6><b>Phone Numberrrr</b></h6>
                                     <p>{{ profile.phoneno }}</p>
                                 </div>
                                 {% endif %}
