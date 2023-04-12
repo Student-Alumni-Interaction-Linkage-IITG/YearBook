@@ -2,22 +2,20 @@
 
 {% block title %} Home | SAIL Year Book Portal {% endblock %}
 
-{% block content %}
 
 {% load static %}
-
-{% block extrastyles %}
-<link rel="stylesheet" href={% static 'css/home.css' %}>
-{% endblock%}
+{% block extrastyles %} <link rel="stylesheet" href={% static 'css/home.css' %}>{% endblock %}
+{% block content %}
 
 <div class="container-fluid">
 	<div class="row mb-2">
 		<div class="homepage">
 			  <Navbar />
 			  <img src={% static 'img/camerabg.png' %} alt="CamImg" class="camera-img" />
-			  <a href="">
-				<div class="search">YEARBOOK 2022 &nbsp; &#128279;</div>
-			  </a>
+
+				<button onclick="abc()" class="search">YEARBOOK 2022 &nbsp; &#128279;</button>
+			  
+			  <div id="announce_list" class="announcement-message">This is yearbook Portal</div>
 			  <div class="announcement">
 				<h2>Announcement</h2>
 				<div class="para">
@@ -43,3 +41,27 @@
 </div>
 
 {% endblock %}
+{% block extrascripts %}
+<script>
+	function abc() {
+		const announce_list = document.querySelector("#announce_list");
+		announce_list.classList.add('slide-in');
+		document.getElementById('announce_list').style.visibility= "visible";
+		localStorage.setItem('clickedButton', 'announce_list');
+		const clickedButton = localStorage.getItem('clickedButton');
+		localStorage.setItem('animationState', 'running');
+		console.log(clickedButton);
+
+	// console.log(button);
+	}
+	if (clickedButton) {
+  const button = document.querySelector(`#${clickedButton}`);
+  button.click();
+
+	}
+	const animationState = localStorage.getItem('animationState');
+if (animationState === 'running') {
+  myElement.classList.add('slide-in');
+}
+</script>
+{% endblock%}
