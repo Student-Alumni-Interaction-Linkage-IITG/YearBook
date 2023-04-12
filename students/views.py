@@ -993,7 +993,7 @@ def leaderboard(request):
                 "last_updated": last_updated,
                 "my_profile": profile,
             }
-            return render(request, "leaderboardnew.html", context)
+            return render(request, "leaderboard2.html", context)
         else:
             return HttpResponseRedirect(reverse("login"))
     else:
