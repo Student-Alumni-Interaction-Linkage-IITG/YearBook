@@ -72,6 +72,7 @@ body{
   width: 1.3vw;
   height: 1.5vw;
   margin-left: 2%;
+  filter: invert(99%) sepia(51%) saturate(7238%) hue-rotate(354deg) brightness(105%) contrast(105%);;
 }
 
 @media (max-width: 800px) and (min-width: 600px) {
