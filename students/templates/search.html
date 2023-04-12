@@ -26,7 +26,7 @@
 
             <div class="swiper-flex" id="swiperflex">
             {% for profile in profiles %}
-                <a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;">
+                <a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;display: flex;">
                     <div class="card">
                         <div class="thumbnail">
                             <img src={{ profile.profile_pic.url }} alt="Profile pic"/>

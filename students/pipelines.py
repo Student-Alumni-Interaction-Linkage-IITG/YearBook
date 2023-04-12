@@ -27,6 +27,8 @@ def create_new_profile(backend, user, response, details, *args, **kwargs):
                     graduating=graduating,
                     phoneno="",
                     gmailid="",
+                    instaid="",
+                    linkedinid="",
                     address="",
                 )
             else:
@@ -39,5 +41,7 @@ def create_new_profile(backend, user, response, details, *args, **kwargs):
                     graduating=False,
                     phoneno=False,
                     gmailid=False,
+                    instaid=False,
+                    linkedinid=False,
                     address=False,
                 )

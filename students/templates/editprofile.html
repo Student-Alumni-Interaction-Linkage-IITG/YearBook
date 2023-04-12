@@ -138,11 +138,19 @@
                                 <div class="invalid-feedback invalid-feedback-gmail">Incorrect format of mail id</div>
                                 <br>
                                 <label for="yearbook-name">Phone Number</label>
-                                <input class="form-control {% if errors.4 %}is-invalid{% endif %}" id="yearbook-phone" placeholder="Your new phone number" name="phoneno" value="{{ profile.phoneno }}" autocomplete="off">
+                                <input class="form-control {% if errors.6 %}is-invalid{% endif %}" id="yearbook-phone" placeholder="Your new phone number" name="phoneno" value="{{ profile.phoneno }}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-phoneno">Invalid value of phone number</div>
                                 <br>
                                 <label for="yearbook-name">Address</label>
                                 <input class="form-control {% if errors.3 %}is-invalid{% endif %}" id="yearbook-addr" placeholder="Your new address" name="address" value="{{ profile.address }}" autocomplete="off">
+                                <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
+                                <br>
+                                <label for="yearbook-name">LinkedIn </label>
+                                <input class="form-control {% if errors.4 %}is-invalid{% endif %}" id="yearbook-linked" placeholder="LinkedIn ID" name="linkedin" value="{{ profile.linkedinid }}" autocomplete="off">
+                                <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
+                                <br>
+                                <label for="yearbook-name">Instagram </label>
+                                <input class="form-control {% if errors.5 %}is-invalid{% endif %}" id="yearbook-insta" placeholder="Instagram ID" name="insta" value="{{ profile.instaid }}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
                                 <br>
                                 <label for="yearbook-bio">Bio</label>
