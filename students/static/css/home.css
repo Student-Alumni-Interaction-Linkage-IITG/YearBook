@@ -64,6 +64,33 @@ body{
   overflow-y: scroll;
 }
 
+#announce_list
+{
+  position: absolute;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  align-items: center;
+  padding: 1%;
+  justify-items: center;
+  text-align: center;
+  font-size: 2.0vw;
+  left: -30.5vw;
+  top: 20vh;
+  height: 30vh;
+  width: 30vw;
+  visibility: visible;
+}
+.slide-in {
+  animation: fadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes fadeIn {
+  from{transform: translateX(-50px)}
+  to{transform:  translateX(450px)}
+}
+
 .databody {
   display: flex;
 }
