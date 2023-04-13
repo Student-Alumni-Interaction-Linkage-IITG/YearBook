@@ -1,7 +1,7 @@
 wheel==0.36.2
 asn1crypto==0.24.0
 certifi==2019.9.11
-cffi==1.14.5
+# cffi==1.14.5
 chardet==3.0.4
 cryptography==3.4.6
 defusedxml==0.6.0
@@ -9,8 +9,8 @@ Django==2.2.20
 idna==2.8
 oauthlib==3.1.0
 Pillow
-psycopg2==2.8.6
-psycopg2-binary==2.8.6
+psycopg2
+# psycopg2-binary==2.8.6
 pycparser==2.19
 PyJWT==1.7.1
 python3-openid==3.1.0
@@ -19,8 +19,9 @@ requests==2.22.0
 requests-oauthlib==1.2.0
 six==1.12.0
 social-auth-app-django==3.1.0
-social-auth-core==3.2.0
+social-auth-core
 sqlparse==0.3.0
 urllib3==1.25.3
 django-phonenumber-field
 phonenumbers
+django-import-export

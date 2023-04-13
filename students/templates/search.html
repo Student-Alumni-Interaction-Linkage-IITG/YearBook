@@ -4,44 +4,81 @@
 
 {% load static %}
 
+{% block extrastyles %} <link rel="stylesheet" type="text/css" href={% static 'css/search.css' %}> {% endblock %}
+
 {% block content %}
     <div class="container-fluid mt-4">
-        <div class="row">
+
+        
+        <div class="swiper" id="profile-links-flex">
+
+            <div class="abc">
+                <div class="nav-search-cont">
+                    <form method="get" action="{% url 'search' %}">
+                        <input onkeyup="searchFunction()" id="search-input" type="text" placeholder='Search for friend' name="key" />
+                        
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-search-icon">
+                            <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13.9996 13.9996L11.0996 11.0996" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        
+                    </form>
+                </div>
+            </div>
+
+            <div class="swiper-flex" id="swiperflex">
             {% for profile in profiles %}
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 my-2">
-                    <div class="card shadow" style="display: inline-block; width: 100%;">
-                        <div class="row no-gutters">
-                            <div class="col-5">
-                                <a href="{% url 'profile' profile.user.username %}">
-                                    <img class="card-img img-fluid " src="{{ profile.profile_pic.url }}" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" alt="Profile Picture">
-                                </a>
-                            </div>
-                            <div class="col-7">
-                                <div class="card-body">
-                                    <a href="{% url 'profile' profile.user.username %}">
-                                        <h5 class="card-title">{{ profile.full_name }}</h5>
-                                    </a>
-                                    <h6 class="card-subtitle">
-                                        {{ profile.get_department_display }}
-                                        <br>
-                                        {{ profile.get_program_display }}
-                                        <br>
-                                        20{{ profile.rollno | stringformat:"i" | slice:":2" }}
-                                    </h6>
-                                </div>
-                            </div>
+                <a href="{% url 'profile' profile.user.username %}" style="text-decoration: none;display: flex;">
+                    <div class="card">
+                        <div class="thumbnail">
+                            <img src={{ profile.profile_pic.url }} alt="Profile pic"/>
+                        </div>
+
+                        <h4>{{ profile.full_name }}</h4>
+
+                        <div class="desc">
+                            <p align="center" class="info">{{ profile.get_department_display }}, {{ profile.get_program_display }}, 20{{ profile.rollno | stringformat:"i" | slice:":2" }}</p>
                         </div>
                     </div>
-                </div>
+                </a>
             {% endfor %}
-        </div>
-        <div class="row mt-3">
-            <div class="col-12">
-                {% if more_profiles %}
-                    <h4 class="text-center">More results available, please refine your search to see them</h4>
-                {% else %}
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12">
                     <h4 class="text-center">End of results. If you still can't find your friends' profiles. Invite them to <a href="{% url 'home' %}">SAIL Yearbook Portal</a></h4>
-                {% endif %}
+                </div>
             </div>
         </div>
+        
 {% endblock %}
+
+{% block extrascripts %}
+
+<script type="text/javascript">
+    {% comment %} document.getElementById("swiperflex").style.height= "90"+"vh"; {% endcomment %}
+    function searchFunction() {
+        var input = document.getElementById("search-input");
+        var filter = input.value.toUpperCase();
+        var profile_flex = document.getElementById("swiperflex");
+        var profile_buttons = profile_flex.getElementsByTagName("a");
+        for (i = 0; i < profile_buttons.length; i++) {
+            var profile_button = profile_buttons[i];
+            if (profile_button) {
+                var profile_name = profile_button.getElementsByTagName("h4")[0].innerText;
+                var profile_dept = profile_button.getElementsByTagName("p")[0].innerText;
+                if (profile_name.toUpperCase().indexOf(filter) > -1) {
+                    profile_button.style.display = "";
+                } else if (profile_dept.toUpperCase().indexOf(filter) > -1) {
+                    profile_button.style.display = "";
+                }
+                else {
+                    profile_button.style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+{% endblock %}
+

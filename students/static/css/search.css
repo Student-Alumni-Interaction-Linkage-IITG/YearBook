@@ -1,0 +1,144 @@
+.abc {
+    width: 100%;
+    /* background-color: black; */
+    position: relative;
+}
+
+.nav-search-cont {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    width: 40%;
+    max-width: 500px;
+    min-width: 200px;
+    height: 44px;
+
+    /* Neutral / 50 */
+
+    background: #F7F8F9;
+    border-radius: 8px;
+}
+
+.nav-search-cont form {
+    width: 100%;
+    height: 100%;
+}
+
+#search-input{
+    height: 90%;
+    width: calc(100% - 50px);
+    transform: translate(0, 5%);
+    margin-left: 10px;
+    padding-left: 10px;
+    border: 0px;
+}
+
+#search-input:focus{
+    border: 1px;
+    border-radius: 4px;
+}
+
+.nav-search-cont svg {
+    position: absolute;
+    top: 50%;
+    transform: translate(10px, -50%);
+}
+
+.swiper
+{
+    padding: 32px;
+    position: absolute;
+    left: 52px;
+    right: 52px;
+    top: 115px;
+
+    background: rgba(255, 255, 255, 0.3);
+    /* Shadow (MD) */
+
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.swiper-flex{
+    gap: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    /* display: grid;
+    grid-template-columns: repeat(4, 283px);
+    grid-auto-rows: 100px;
+    grid-gap: 32px;
+    width: 100vw; */
+}
+
+.swiper-flex .card
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 12px;
+
+    background: rgba(207, 184, 255, 0.7);
+    box-shadow: 0px 6px 12px rgba(216, 161, 216, 0.1);
+    border-radius: 8px;
+}
+
+.swiper-flex .card h4 {
+    width: 199px;
+    /* height: 28px; */
+
+    /* Heading / H4 - Small / Semi Bold */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 28px;
+    /* identical to box height, or 122% */
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #073B4C;
+}
+
+.swiper-flex .card .desc {
+    width: 251px;
+    height: 55px;
+
+    /* Paragraph / P2 / Regular */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    /* or 119% */
+
+    text-align: center;
+
+    color: #073B4C;
+
+}
+
+.swiper-flex .thumbnail {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.swiper-flex .thumbnail img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
