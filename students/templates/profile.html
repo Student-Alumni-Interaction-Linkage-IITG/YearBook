@@ -117,8 +117,8 @@
                                     <p style="display: flex;justify-content: center;">
                                         <a href="mailto:{{ profile.user.email }}"><i class="fa fa-envelope" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a>
                                         <!-- need to change -->
-                                        <a href="mailto:{{ profile.user.email }}"><i class="fa fa-instagram" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
-                                        <a href="mailto:{{ profile.user.email }}"><i class="fa fa-linkedin" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
+                                        <a href="https://www.instagram.com/{{ profile.instaid }}"><i class="fa fa-instagram" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
+                                        <a href="https://www.linkedin.com/in/{{ profile.linkedinid }}"><i class="fa fa-linkedin" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
                                     </p>
                                     <p  style="display: flex; justify-content: center;">{{ profile.bio }}</p>
                                     {% if profile.address == "" %}

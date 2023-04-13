@@ -37,6 +37,11 @@ urlpatterns = (
         path("search/", student_views.search, name="search"),
         path("search2/", student_views.search2, name="search2"),
         path("polls/", student_views.polls, name="polls"),
+        path(
+            "notready_leaderboard/",
+            student_views.notready_leaderboard,
+            name="notready_leaderboard",
+        ),
         path("leaderboard/", student_views.leaderboard, name="leaderboard"),
         path(
             "update_leaderboard/",

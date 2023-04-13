@@ -8,35 +8,18 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models.functions import Length, Lower
-from django.http import (
-    HttpResponse,
-    HttpResponseBadRequest,
-    HttpResponseRedirect,
-    JsonResponse,
-)
+from django.http import (HttpResponse, HttpResponseBadRequest,
+                         HttpResponseRedirect, JsonResponse)
 from django.shortcuts import render
 from django.urls import reverse
 from PIL import Image, ImageOps
 
-from yearbook.settings import (
-    BASE_DIR,
-    MEDIA_ROOT,
-    POLL_STOP,
-    PORTAL_STOP,
-    PRODUCTION,
-)
+from yearbook.settings import (BASE_DIR, MEDIA_ROOT, POLL_STOP, PORTAL_STOP,
+                               PRODUCTION)
 
-from .models import (
-    Announcement,
-    Leaderboard,
-    PollAnswer,
-    PollQuestion,
-    Profile,
-    ProfileAnswers,
-    ProfileQuestion,
-    Team_Member,
-    Testimonial,
-)
+from .models import (Announcement, Leaderboard, PollAnswer, PollQuestion,
+                     Profile, ProfileAnswers, ProfileQuestion, Team_Member,
+                     Testimonial)
 
 # Create your views here.
 
@@ -422,7 +405,7 @@ def edit_profile(request):
             user = User.objects.filter(username=request.user.username).first()
             profile = Profile.objects.filter(user=user).first()
             new_name = request.POST.get("name", "")
-            errors = [0, 0, 0, 0, 0]
+            errors = [0, 0, 0, 0, 0, 0, 0]
             if user.is_superuser:
                 return error404(request)
             if len(new_name) < 50 and new_name != "":
@@ -445,11 +428,29 @@ def edit_profile(request):
                 profile.address = new_address
             else:
                 errors[3] = 1
+            new_linkedinidd = request.POST.get("linkedin", "").rsplit("/", 1)[
+                -1
+            ]
+            if new_linkedinidd == "" and request.POST.get("linkedin", "") != "":
+                new_linkedinidd = request.POST.get("linkedin", "").rsplit(
+                    "/", 2
+                )[-2]
+            if len(new_linkedinidd) <= 50:
+                profile.linkedinid = new_linkedinidd
+            else:
+                errors[4] = 1
+            new_instaidd = request.POST.get("insta", "").rsplit("/", 1)[-1]
+            if new_instaidd == "" and request.POST.get("insta", "") != "":
+                new_instaidd = request.POST.get("insta", "").rsplit("/", 2)[-2]
+            if len(new_instaidd) <= 50:
+                profile.instaid = new_instaidd
+            else:
+                errors[5] = 1
             new_phoneno = request.POST.get("phoneno", "")
             if len(new_phoneno) == 10:
                 profile.phoneno = new_phoneno
             else:
-                errors[4] = 1
+                errors[6] = 1
             profile.save()
             context = {
                 "updated": True,
@@ -458,7 +459,18 @@ def edit_profile(request):
                 "logged_in": True,
                 "my_profile": profile,
             }
-            if errors[0] + errors[1] + errors[2] + errors[3] + errors[4] == 0:
+            print(profile.linkedinid)
+            print(profile.instaid)
+            if (
+                errors[0]
+                + errors[1]
+                + errors[2]
+                + errors[3]
+                + errors[4]
+                + errors[5]
+                + errors[6]
+                == 0
+            ):
                 return render(request, "editprofile.html", context)
             else:
                 context["updated"] = False
@@ -1021,6 +1033,25 @@ def team(request):
 
 @login_required
 @is_edited
+def notready_leaderboard(request):
+    if request.method == "GET":
+        if request.user and not request.user.is_anonymous:
+            logged_in = True
+        else:
+            logged_in = False
+        if logged_in:
+            user = User.objects.filter(username=request.user.username).first()
+            profile = Profile.objects.filter(user=user).first()
+            context = {"my_profile": profile, "logged_in": logged_in}
+            return render(request, "notready_leaderboard.html", context)
+        else:
+            HttpResponseRedirect(reverse("login"))
+    else:
+        return error404(request)
+
+
+@login_required
+@is_edited
 def leaderboard(request):
     if request.method == "GET":
         if request.user and not request.user.is_anonymous:
@@ -1047,14 +1078,12 @@ def leaderboard(request):
             ).strftime("%H:%M, %b %d")
             announce = list(Announcement.objects.all().order_by("-pub_date"))
 
-            profile = Profile.objects.filter(user=user).first()
             context = {
                 "user": user,
                 "logged_in": logged_in,
                 "lead_dict": sorted_d,
                 "announce_list": announce,
                 "last_updated": last_updated,
-                "my_profile": profile,
             }
             return render(request, "leaderboard.html", context)
         else:

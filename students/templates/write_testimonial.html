@@ -15,6 +15,9 @@
     <div class="testimonials">
 
         <div class="images">
+            {% comment %} {% for profile in profiles|slice:":6" %}
+                <div class="img {forLoop.counter}"><img ={{ profile.profile_pic.url }}  alt=""/></div>
+            {% endfor %} {% endcomment %}
             <div class="img one"><img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
             <div class="img two" ><img src={% static 'img/write_test_example_imgs/img2.png' %} alt=""/></div>
             <div class="img three" > <img src={% static 'img/write_test_example_imgs/img1.png' %} alt=""/></div>
