@@ -47,6 +47,7 @@ body{
   height: 8vh;
   left: 59%;
   top: 20%;
+  cursor: pointer;
 }
 
 .announcement {

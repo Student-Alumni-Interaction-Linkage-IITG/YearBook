@@ -13,9 +13,9 @@
 			  <Navbar />
 			  <img src={% static 'img/camerabg.png' %} alt="CamImg" class="camera-img" />
 
-				<button onclick="abc()" class="search">YEARBOOK 2022 &nbsp; &#128279;</button>
+				<div class="search">YEARBOOK 2022 &nbsp; &#128279;</div>
 			  
-			  <div id="announce_list" class="announcement-message">This is yearbook Portal</div>
+			  {% comment %} <div id="announce_list" class="announcement-message">This is yearbook Portal</div> {% endcomment %}
 			  <div class="announcement">
 				<h2>Announcement</h2>
 				<div class="para">
@@ -55,13 +55,12 @@
 	// console.log(button);
 	}
 	if (clickedButton) {
-  const button = document.querySelector(`#${clickedButton}`);
-  button.click();
-
+		const button = document.querySelector(`#${clickedButton}`);
+		button.click();
 	}
 	const animationState = localStorage.getItem('animationState');
-if (animationState === 'running') {
-  myElement.classList.add('slide-in');
-}
+	if (animationState === 'running') {
+		myElement.classList.add('slide-in');
+	}
 </script>
 {% endblock%}
