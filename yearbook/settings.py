@@ -174,6 +174,7 @@ SOCIAL_AUTH_PIPELINE = (
 
 SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = "https://graph.microsoft.com"
 GET_ALL_EXTRA_DATA = True
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_AUTHORITY_HOST = ["login.microsoftonline.com"]
 
 if PRODUCTION:
     LOGIN_URL = "/yearbook/login/"
