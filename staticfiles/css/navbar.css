@@ -1,0 +1,334 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+* {
+  margin: 0%;
+  padding: 0%;
+}
+.navbar {
+  background-color: rgb(28, 26, 26, 0.2);
+  /* opacity: 1; */
+  /* background-image: linear-gradient(to right ,rgba(147, 5, 183, 0.473), rgba(255, 204, 0, 0.308)); */
+  width: 100vw;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 2%;
+  justify-content: space-around;
+  font-family: "Inter";
+}
+.nav-images {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2%;
+}
+.nav-sail {
+  width: 144px;
+  height: 64px;
+}
+.nav-yearbook {
+  width: 183px;
+  height: 60px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 40px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #ffffff;
+  /* font-weight: bolder; */
+}
+.nav-links a:hover {
+  font-weight: bold;
+  /* text-decoration: underline;
+    text-underline-offset: 6px; */
+  /* transition: .2s linear; */
+}
+.nav-hamburg,
+.nav-menu {
+  display: none;
+  cursor: pointer;
+}
+
+.nav-hamburg2 {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5rem;
+  right: 2.5rem;
+  padding: 15px 8px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  background: rgb(166, 133, 251);
+  z-index: 10;
+}
+.nav-hamburg2::before {
+  /* content: ""; */
+  position: absolute;
+  top: -0.7rem;
+  right: 0.6rem;
+  width: 20px;
+  height: 20px;
+  /* transform: rotate(45deg); */
+  background-color: #e9e7e7;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+}
+.nav-hamburg2 ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding-left: 4px;
+  /* gap: 8px; */
+}
+.nav-hamburg2 ul a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 5px 8px;
+}
+.nav-hamburg2 ul a:hover {
+  font-weight: 600;
+}
+.nav-search-cont {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.nav-search-box {
+  width: 390px;
+  height: 44px;
+  padding: 0px 25px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  align-self: center;
+}
+.nav-search-icon {
+  position: absolute;
+  right: 25px;
+  width: 16px;
+  height: 16px;
+}
+.nav-search-box:focus {
+  outline: none;
+}
+.nav-log-out {
+  width: 84px;
+  height: 33px;
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bolder;
+  border-radius: 4px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 8px;
+  margin-top: 5px;
+}
+.nav-log-out:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 10px 10px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.2s ease-out;
+}
+.nav-user-img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.nav-user-img:hover {
+  outline: #ffffff solid 2px;
+}
+.nav-bell{
+  cursor: pointer;
+  padding: 7px 7px;
+  border-radius: 50%;
+}
+.nav-bell:hover{
+  outline: 1.5px solid black;
+  /* background-color: #ffffff; */
+
+}
+.profile_nav{
+  display: flex;
+  gap: 0.5vw;
+}
+.down_ham{
+  height: 1.2vh;
+  padding-top: 1.8vh;
+}
+.down_ham:hover{
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 10px 10px 0 rgba(0, 0, 0, 0.19);
+}
+@media screen and (max-width: 1200px) and (min-width: 1000px) {
+  .nav-links {
+    gap: 25px;
+  }
+  .nav-sail {
+    width: 100px;
+    height: 49.33px;
+  }
+  .nav-yearbook {
+    width: 145.5px;
+    height: 48px;
+  }
+  .nav-links a {
+    font-size: 14px;
+  }
+  .nav-hamburg,
+  .nav-menu {
+    display: none;
+  }
+  .nav-hamburg2 {
+    right: 0.2rem;
+  }
+  .nav-search-box {
+    width: 200px;
+    height: 40px;
+  }
+  /* .nav-search-icon{
+        right: 18%;
+    } */
+  .nav-log-out {
+    width: 75px;
+    height: 28px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 1000px) and (min-width: 600px) {
+  .nav-sail {
+    width: 65px;
+    height: 28.9px;
+  }
+  .nav-yearbook {
+    height: 29px;
+    width: 88.45px;
+  }
+  .nav-images {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar {
+    height: 70px;
+    gap: 2.5%;
+  }
+  .nav-links {
+    font-size: 13px;
+    gap: 15px;
+  }
+  .nav-hamburg,
+  .nav-menu {
+    display: none;
+  }
+  .nav-hamburg2 {
+    right: 0.2rem;
+  }
+  .nav-search-box {
+    height: 37px;
+    width: 160px;
+    font-size: 13px;
+    padding: 0px 25px;
+  }
+  /* .search-icon{
+        right: 24%;
+    } */
+  .nav-log-out {
+    width: 70px;
+    height: 26px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .nav-sail {
+    width: 65px;
+    height: 28.9px;
+  }
+  .nav-yearbook {
+    height: 29px;
+    width: 88.45px;
+  }
+  .nav-images {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar {
+    height: 70px;
+    gap: 3.8%;
+  }
+  .nav-links,
+  .nav-in {
+    display: none;
+  }
+  .nav-hamburg2 {
+    right: 3.5rem;
+  }
+  .nav-hamburg {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 4rem;
+    right: 0.5rem;
+    padding: 15px 8px;
+    border-radius: 8px;
+    border: 1px solid gray;
+    background-color: #e9e7e7;
+    z-index: 10;
+  }
+  .nav-hamburg::before {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    right: 0.6rem;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: #e9e7e7;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+  }
+  .nav-hamburg ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding-left: 4px;
+    gap: 8px;
+  }
+  .nav-hamburg ul a{
+    display: block;
+    padding: 3px 8px;
+  }
+  .nav-hamburg ul a:hover {
+    background-color: #ffffff;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  .nav-menu {
+    display: block;
+    width: 26px;
+    height: 26px;
+  }
+  .nav-search-box {
+    height: 37px;
+    width: 130px;
+    font-size: 13px;
+    padding-right: 27px;
+    padding-left: 15px;
+  }
+  /* .search-icon{
+        right: 32%;
+    } */
+  .nav-log-out {
+    width: 70px;
+    height: 26px;
+    font-size: 12px;
+  }
+}

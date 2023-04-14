@@ -48,7 +48,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 if PRODUCTION:
-    DEBUG = False
+    DEBUG = True
     os.environ["wsgi.url_scheme"] = "https"
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
@@ -174,6 +174,7 @@ SOCIAL_AUTH_PIPELINE = (
 
 SOCIAL_AUTH_AZUREAD_OAUTH2_RESOURCE = "https://graph.microsoft.com"
 GET_ALL_EXTRA_DATA = True
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_AUTHORITY_HOST = ["login.microsoftonline.com"]
 
 if PRODUCTION:
     LOGIN_URL = "/yearbook/login/"
