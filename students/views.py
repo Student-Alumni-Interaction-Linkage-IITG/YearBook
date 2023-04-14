@@ -8,18 +8,35 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models.functions import Length, Lower
-from django.http import (HttpResponse, HttpResponseBadRequest,
-                         HttpResponseRedirect, JsonResponse)
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import render
 from django.urls import reverse
 from PIL import Image, ImageOps
 
-from yearbook.settings import (BASE_DIR, MEDIA_ROOT, POLL_STOP, PORTAL_STOP,
-                               PRODUCTION)
+from yearbook.settings import (
+    BASE_DIR,
+    MEDIA_ROOT,
+    POLL_STOP,
+    PORTAL_STOP,
+    PRODUCTION,
+)
 
-from .models import (Announcement, Leaderboard, PollAnswer, PollQuestion,
-                     Profile, ProfileAnswers, ProfileQuestion, Team_Member,
-                     Testimonial)
+from .models import (
+    Announcement,
+    Leaderboard,
+    PollAnswer,
+    PollQuestion,
+    Profile,
+    ProfileAnswers,
+    ProfileQuestion,
+    Team_Member,
+    Testimonial,
+)
 
 # Create your views here.
 
@@ -137,7 +154,7 @@ def home(request):
                         "announce_list": announce,
                         "my_profile": user_profile,  # to show profile pic in navbar
                     }
-                    return render(request, "polls.html", context)
+                    return render(request, "home.html", context)
                 else:
                     testimonials = Testimonial.objects.filter(
                         given_to=user_profile
@@ -946,7 +963,7 @@ def polls(request):
                         "logged_in": logged_in,
                         "my_profile": user_profile,  # to show profile pic in navbar
                     }
-                    return render(request, "polls2.html", context)
+                    return render(request, "polls.html", context)
                 else:
                     for question in poll_questions:
                         answers = PollAnswer.objects.filter(question=question)

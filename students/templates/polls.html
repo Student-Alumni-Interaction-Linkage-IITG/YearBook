@@ -67,6 +67,23 @@
 	border-radius: 50%;
 	background: white;
 }
+
+.non-graduating{
+    height: 60px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    
+    margin: auto;
+}
+
+.non-graduating h2 {
+    font-weight: 600;
+}
+
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -190,11 +207,12 @@
                 </div>
 
             {% else %}
-                <div class="col-xl-3"></div>
-                <div class="col-xl-6">
-                    <h2 class="text-center">Search for the graduating batch students, above to give testimonials.</h2>
+                {% comment %} <div class="col-xl-3"></div> {% endcomment %}
+                <div class="non-graduating">
+                    <h2 class="text-center">Only graduating batch students can participate in polls.<br>
+                        Search for graduating batch students to write testimonials for them.</h2>
                 </div>
-                <div class="col-xl-3"></div>
+                {% comment %} <div class="col-xl-3"></div> {% endcomment %}
             {% endif %}
         </div>
     </div>
