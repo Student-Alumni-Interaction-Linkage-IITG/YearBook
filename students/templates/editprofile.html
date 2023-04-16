@@ -17,6 +17,7 @@
                   var submitting = false;
                   $("#profile-pic-upload-input").change(function () {
                       if (this.files && this.files[0]) {
+                        if(this.files[0].size < 2100000){
                           var reader = new FileReader();
                           reader.onload = function (event) {
                               $("#new-crop-image").attr("src", event.target.result);
@@ -24,6 +25,14 @@
                               $("#profile-pic-crop-modal").modal("show");
                           };
                           reader.readAsDataURL(this.files[0]);
+                        }else{
+                            $("#profile-updated-notification2").removeClass("d-none");
+                            $(document).ready(function () {
+                                setTimeout(function () {
+                                    $("#profile-updated-notification2").addClass("d-none");
+                                },5000)
+                            });
+                        }
                       }
                   });
                   /* SCRIPTS TO HANDLE THE CROPPER BOX */
@@ -98,6 +107,7 @@
                 <h3 class="text-center">Edit Profile</h3>
                 <div class="card shadow">
                     <div class="card-body">
+                        <h4 class="text-center d-none alert alert-danger" id="profile-updated-notification2">Profile pic size greater than 2Mb</h4>
                         {% if updated %}
                             <h4 class="text-center" id="profile-updated-notification">Profile updated successfully!</h4>
                             <script>
@@ -118,7 +128,7 @@
                         <br>
                         <form method="post" action="{% url 'upload_profile_pic' %}" enctype="multipart/form-data" id="profile-pic-upload-form">
                             <div class="form-group">
-                                <label for="profile-pic-upload-input">Upload new profile pic</label>
+                                <label for="profile-pic-upload-input">Upload new profile pic (size<2Mb)</label>
                                 <input class="form-control-file" type="file" name="profile_pic" id="profile-pic-upload-input" autocomplete="off">
                                 <input class="d-none" id="profile-pic-crop-x" name="x">
                                 <input class="d-none" id="profile-pic-crop-y" name="y">
