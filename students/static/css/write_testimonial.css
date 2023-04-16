@@ -90,6 +90,7 @@ transform: rotate(-5.68deg);
 .swiper
 {
     padding: 32px;
+    padding-bottom: 0;
     display: flex;
     flex-direction: row;
     flex-flow: row wrap;
@@ -99,7 +100,7 @@ transform: rotate(-5.68deg);
     row-gap: 0px;
 
     position: absolute;
-    height: 350px;
+    /* height: 350px; */
     left: 148px;
     right: 148px;
     top: 60vh;
@@ -123,8 +124,8 @@ transform: rotate(-5.68deg);
     gap: 15px;
     justify-content: center;
 
-    width: 283px;
-    height: 283px;
+    /* width: 283px;
+    height: 283px; */
 
     background: rgba(207, 184, 255, 0.7);
     mix-blend-mode: multiply;
@@ -134,7 +135,7 @@ transform: rotate(-5.68deg);
 
 .swiper .card h4 {
     width: 199px;
-    height: 28px;
+    /* height: 28px; */
 
     /* Heading / H4 - Small / Semi Bold */
 
