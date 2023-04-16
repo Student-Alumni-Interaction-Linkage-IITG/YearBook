@@ -130,7 +130,7 @@
                         <form method="post" action="{% url 'edit_profile' %}">
                             <div class="form-group">
                                 <label for="yearbook-name">Name</label>
-                                <input class="form-control {% if errors.0 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Name as you want in the Yearbook" name="name" value="{{ profile.full_name }}" autocomplete="off">
+                                <input class="form-control {% if errors.0 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Name as you want in the Yearbook" name="name" value="{{ profile.full_name }}" autocomplete="off" readonly>
                                 <div class="invalid-feedback invalid-feedback-name">Length of Name out of bounds</div>
                                 <br>
                                 <label for="yearbook-name">Personal mail id</label>
@@ -145,11 +145,11 @@
                                 <input class="form-control {% if errors.3 %}is-invalid{% endif %}" id="yearbook-addr" placeholder="Your new address" name="address" value="{{ profile.address }}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
                                 <br>
-                                <label for="yearbook-name">LinkedIn(only username)</label>
+                                <label for="yearbook-name">LinkedIn</label>
                                 <input class="form-control {% if errors.4 %}is-invalid{% endif %}" id="yearbook-linked" placeholder="LinkedIn ID" name="linkedin" value="{{ profile.linkedinid }}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
                                 <br>
-                                <label for="yearbook-name">Instagram(only username)</label>
+                                <label for="yearbook-name">Instagram</label>
                                 <input class="form-control {% if errors.5 %}is-invalid{% endif %}" id="yearbook-insta" placeholder="Instagram ID" name="insta" value="{{ profile.instaid }}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-address">Length of Address out of bounds</div>
                                 <br>
