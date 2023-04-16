@@ -3,48 +3,135 @@
 {% block title %} {{ profile.full_name }} | SAIL Year Book Portal {% endblock %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .MyProfileR_card {
+    display: flex;
+    height: auto;
+    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.MyProfileR_card_detail {
+    margin: 10px;
+}
+
+.MyProfileR_card_card_name {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 28px;
+}
+
+.MyProfileR_card_card_banch {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 10px;
+}
+
+.MyProfileR_card_img {
+    height: 156px;
+    width: 156px;
+    border-radius: 100%;
+    margin-top: 20px;
+}
+
+.MyProfileR_card_card_testimony {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 20px;
+}
+.MyProfileR_card_hr {
+    border: 1px solid white;
+}
+
+.MyProfileR_Search {
+    justify-content: center;
+    display: flex;
+    margin-top: 40px;
+}
+.ProfileR_Search_input {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    border-width: 0px;
+    padding-left: 20px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.ProfileR_Search_input:focus-visible {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+}
+
+.ProfileR_Search_input_i {
+    height: 33px;
+    position: relative;
+    right: 30px;
+}
+
+</style>
     <div class="container-fluid">
         <div class="row mb-2">
             {% if profile.graduating %}
                 <div class="col-xl-3 col-lg-12">
                     <div class="container-fluid">
                         <div class="card shadow">
-                            <img class="card-img-top" width="100%" src="{{ profile.profile_pic.url }}" alt="Profile Picture"/>
+                            <div style="display: flex; justify-content: center; position: relative;">
+                                <img class="card-img-top" style="border-radius: 50%;width: 16vw;padding-top: 2vh;" width="100%" src="{{ profile.profile_pic.url }}" alt="Profile Picture"/>
+                                {% if myprofile %}
+                                    <a  href="{% url 'edit_profile' %}" style="position: absolute;bottom: 0;right: 4vw;"><img src="{% static 'img/icon.png' %}" alt="" width="60px"></a>
+                                    <!-- <a class="btn btn-dark" style="border-top-right-radius: 0;border-top-left-radius: 0" href="{% url 'edit_profile' %}">Edit Profile</a> -->
+                                {% endif %}
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title"><b>{{ profile.full_name }}</b></h5>
-                                <h6 class="card-subtitle">
+                                <h5 style="text-align: center;" class="card-title"><b style="display: flex; justify-content: center;">{{ profile.full_name }}</b></h5>
+                                <h6 class="card-subtitle" style="text-align: center;">
                                     {{ profile.get_department_display }}
                                     <br>
                                     {{ profile.get_program_display }}
-                                    <br>
                                     20{{ profile.rollno | stringformat:"i" | slice:":2" }}
                                 </h6>
                                 <br>
+                                {% if request.user == profile_user %}
                                 <div class="card-text">
                                     <h6><b>Phone Number</b></h6>
                                     <p>{{ profile.phoneno }}</p>
                                 </div>
+                                {% endif %}
                                 <div class="card-text">
-                                    <h6><b>Webmail</b></h6>
-                                    <p><a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></p>
-                                    <h6><b>Email</b></h6>
-                                    <p><a href="mailto:{{ profile.gmailid }}">{{ profile.gmailid }}</a></p>
-                                    <h6><b>Bio</b></h6>
-                                    <p>{{ profile.bio }}</p>
+                                    <p style="display: flex;justify-content: center;">
+                                        <a href="mailto:{{ profile.user.email }}"><i class="fa fa-envelope" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a>
+                                        <!-- need to change -->
+                                        <a href="https://www.instagram.com/{{ profile.instaid }}"><i class="fa fa-instagram" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
+                                        <a href="https://www.linkedin.com/in/{{ profile.linkedinid }}"><i class="fa fa-linkedin" style="font-size: 30px;color: black;padding: 0 10px 0 10px;"></i></a> 
+                                    </p>
+                                    <p  style="display: flex; justify-content: center;">{{ profile.bio }}</p>
+                                    {% if profile.address == "" %}
                                     <h6><b>Address</b></h6>
-                                    <p>{{ profile.address }}</p>
+                                    <p style="display: flex; justify-content: center;">{{ profile.address }}</p>
+                                    {% endif %}
                                 </div>
                             </div>
-                            {% if myprofile %}
-                                <a class="btn btn-dark" style="border-top-right-radius: 0;border-top-left-radius: 0" href="{% url 'edit_profile' %}">Edit Profile</a>
-                            {% endif %}
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-4 col-lg-12  mt-xl-0 mt-sm-4">
                     <div class="container-fluid">
                         {% for question,answer in answers.items %}
-                        <div class="card shadow my-2 mx-lg-3">
+                        <div class="card shadow" style="margin-top: 2vh;">
                             <div class="card-header">
                                 <h6 class="mb-0">{{ question.question }}</h6>
                             </div>
@@ -54,8 +141,8 @@
                                 </div>
                                 {% if myprofile %}
                                     <p class="float-right mb-0">
-                                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#answer-modal-{{ question.id }}">
-                                            <i style="color: #3aafa9;" class="far fa-edit"></i>
+                                        <button type="button" class="btn" data-toggle="modal" data-target="#answer-modal-{{ question.id }}">
+                                            <i style="color: black;" class="far fa-edit"></i>
                                         </button>
                                     </p>
                                     <div class="modal fade" id="answer-modal-{{ question.id }}" tabindex="-1" role="dialog">
@@ -84,7 +171,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-12 mt-xl-0 mt-sm-4">
+                <div class="col-xl-7 col-lg-12 mt-xl-0 mt-sm-4">
                     <div class="container-fluid">
                         <h3 class="text-center" style="font-weight: bold;">Testimonials</h3>
                         {% if logged_in and not user.is_superuser %}
@@ -113,43 +200,62 @@
                                     </div>
                                 </div>
                             {% else %}
-                                <a class="btn btn-dark" style="width: 100%;" href="{% url 'write_testimonial' %}#testimonials">Testimonials by You</a>
+                            <div class='MyProfileR_Search'>
+                                <input class='ProfileR_Search_input' id='myFilter' placeholder='Search Testimonial' onkeyup='myFunction()'/>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class='ProfileR_Search_input_i'><path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path><path d="M13.9996 13.9996L11.0996 11.0996" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+                            </div>
                             {% endif %}
                         {% else %}
                             <a class="btn btn-dark" style="width: 100%;" href="{% url 'login' %}?next={% url 'profile' profile.user.username %}">Login to add Testimonial</a>
                         {% endif %}
-                        {% for testimonial in testimonials %}
-                            <div class="card shadow my-2 mx-lg-3" id="testimonial-{{ testimonial.id }}">
-                                <div class="card-body">
-                                    <p class="card-text text-justify">
-                                        {{ testimonial.content | linebreaksbr }}
-                                    </p>
-                                    <p class="float-left my-0">
-                                        {% if myprofile %}
-                                            {% if testimonial.favourite %}
-                                                <button class="btn btn-dark" onclick="favouriteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Remove the testimonial from favourites to not show it on your final Yearbook">
-                                                    <i style="color: #3aafa9;" class="fas fa-star"></i>
-                                                </button>
-                                            {% else %}
-                                                <button class="btn btn-dark" onclick="favouriteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Add the testimonial to favourites to show it on your final Yearbook">
-                                                    <i style="color: #3aafa9;" class="far fa-star"></i>
-                                                </button>
-                                            {% endif %}
-                                                <button class="btn btn-dark" onclick="deleteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Delete the testimonial from your profile.">
-                                                    <i class="fas fa-trash" style="color: #3aafa9;"></i>
-                                                </button>
-                                        {% elif testimonial.given_by.user == user %}
-                                            <button class="btn btn-dark" data-toggle="modal" data-target="#testimonial-modal"><i style="color: #3aafa9;" class="fas fa-edit"></i></button>
-                                            <button class="btn btn-dark" onclick="deleteTestimonial({{ testimonial.id }})"><i style="color: #3aafa9;" class="fas fa-trash" data-toggle="tooltip" title="Delete the testimonial from your profile."></i></button>
-                                        {% endif %}
-                                    </p>
-                                    <p class="float-right my-0">
-                                        <a href="{% url 'profile' testimonial.given_by.user.username %}">
-                                            ~ {{ testimonial.given_by.full_name }}
-                                        </a>
-                                    </p>
+                        {% for testimonial,profile in testimonials %}
+                        <div class="MyProfileR_card">
+                            <a href="{% url 'profile' profile.user.username%}">
+                                <div class="MyProfileR_card_image">
+                                <img
+                                    alt=""
+                                    src="{{ profile.profile_pic.url }}"
+                                    class="MyProfileR_card_img">
                                 </div>
+                            </a>
+                            <div class="MyProfileR_card_detail">
+                                <a style="text-decoration: none; color: inherit;" href="{% url 'profile' profile.user.username%}">
+                                    <div class="MyProfileR_card_card_name">{{profile.full_name}}</div>
+                                    <div class="MyProfileR_card_card_banch">
+                                        {{ profile.get_department_display }} ,
+                                            {{ profile.get_program_display }}
+                                            20{{ profile.rollno | stringformat:"i" | slice:":2" }}
+                                    </div>
+                                </a>
+                                <div class="MyProfileR_card_card_testimony">
+                                    {{ testimonial.content | linebreaksbr }}
+                                </div>
+                                <div class="MyProfileR_card_card_buttons"></div>
                             </div>
+                            <p style="position: absolute; right: 2.5vw;" >
+                                {% if myprofile %}
+                                    {% if testimonial.favourite %}
+                                        <button class="btn" onclick="favouriteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Remove the testimonial from favourites to not show it on your final Yearbook">
+                                            <i class="fa fa-heart" style="color: black;font-size: 20px;"></i>
+                                        </button>
+                                    {% else %}
+                                        <button class="btn" onclick="favouriteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Add the testimonial to favourites to show it on your final Yearbook">
+                                            <i class="fa fa-heart-o" style="color: black;font-size: 20px;"></i>
+                                        </button>
+                                    {% endif %}
+                                        <button class="btn" onclick="deleteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Delete the testimonial from your profile.">
+                                            <i class="fa fa-trash" style="color: black;font-size: 25px;"></i>
+                                        </button>
+                                {% elif testimonial.given_by.user == user %}
+                                    <button class="btn btn" data-toggle="modal" data-target="#testimonial-modal"><i style="color: black;font-family: 25px;" class="fas fa-edit"></i></button>
+                                    <button class="btn" onclick="deleteTestimonial({{ testimonial.id }})" data-toggle="tooltip" title="Delete the testimonial from your profile.">
+                                        <i class="fa fa-trash" style="color: black;font-size: 25px;"></i>
+                                    </button>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <hr class="MyProfileR_card_hr" />
+                          
                         {% endfor %}
                     </div>
                 </div>
@@ -185,7 +291,7 @@
                                 </div>
                             </div>
                             {% if myprofile %}
-                                <a class="btn btn-dark" style="border-top-right-radius: 0;border-top-left-radius: 0" href="{% url 'edit_profile' %}">Edit Profile</a>
+                                <a class="btn btn-dark" style="border-top-right-radius: 0;border-top-left-radius: 0" href="{% url 'edit_profile' %}">Edit Profile  <i style="color: white; font-family: 20px;" class="fas fa-edit"></i></a>
                             {% endif %}
                         </div>
                     </div>
@@ -198,6 +304,25 @@
 
 {% block extrascripts %}
     <script>
+        const lines = document.getElementsByClassName("MyProfileR_card_hr");
+        function myFunction() {
+            console.log("hi");
+            var input, filter, cards, cardContainer, title, i;
+            input = document.getElementById("myFilter");
+            filter = input.value.toUpperCase();
+            cards = document.getElementsByClassName("MyProfileR_card");
+            for (i = 0; i < cards.length; i++) {
+                title1 = cards[i].querySelector(".MyProfileR_card_card_banch")
+                title2 = cards[i].querySelector(".MyProfileR_card_card_name")
+                if ((title1.innerText+title2.innerText).toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+                lines[i].style.display = "";
+                } else {
+                cards[i].style.display = "none";
+                lines[i].style.display = "none";
+                }
+            }
+        }
         function favouriteTestimonial(testimonial_id){
             $.ajax({
                 type: "POST",

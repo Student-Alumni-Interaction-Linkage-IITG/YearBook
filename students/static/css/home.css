@@ -1,0 +1,126 @@
+* {
+  margin: 0%;
+  padding: 0%;
+}
+
+body{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+}
+
+.homepage {
+  width: 100vw;
+  height: calc(100vh - 76px);
+  position: relative;
+}
+
+body{
+  padding: 0 !important;
+}
+
+.camera-img {
+  background: transparent;
+  padding-top: 1%;
+  width: 50vw;
+  height: 80%;
+  mix-blend-mode: multiply;
+}
+
+.search {
+  position: absolute;
+  background: #f7f8f9;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2vw;
+  font-weight: 600;
+  color: black;
+  width: 30vw;
+  height: 8vh;
+  left: 59%;
+  top: 20%;
+  cursor: pointer;
+}
+
+.announcement {
+  position: absolute;
+  font-size: 1.5vw;
+  width: 40vw;
+  height: 20vw;
+  left: 53%;
+  top: 40%;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  text-align: center;
+  padding: 1%;
+  overflow-y: scroll;
+}
+
+#announce_list
+{
+  position: absolute;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  align-items: center;
+  padding: 1%;
+  justify-items: center;
+  text-align: center;
+  font-size: 2.0vw;
+  left: -30.5vw;
+  top: 20vh;
+  height: 30vh;
+  width: 30vw;
+  visibility: visible;
+}
+.slide-in {
+  animation: fadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes fadeIn {
+  from{transform: translateX(-50px)}
+  to{transform:  translateX(450px)}
+}
+
+.databody {
+  display: flex;
+}
+
+.megaphoneicon {
+  width: 1.3vw;
+  height: 1.5vw;
+  margin-left: 2%;
+  filter: invert(99%) sepia(51%) saturate(7238%) hue-rotate(354deg) brightness(105%) contrast(105%);;
+}
+
+@media (max-width: 800px) and (min-width: 600px) {
+  .announcement {
+    min-height: 25vw;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .announcement {
+    min-height: 35vw;
+  }
+}
+
+.para {
+  color: black;
+  padding-top: 5%;
+  font-size: 1.1vw;
+  text-align: left;
+  margin-top: 1%;
+  padding-bottom: 1.5%;
+  font-weight: 600;
+}
+
+.databody {
+  padding: 2%;
+  border-bottom: 2px solid #FFFFFF;
+}
