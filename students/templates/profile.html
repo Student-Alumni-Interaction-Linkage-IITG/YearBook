@@ -109,7 +109,7 @@
                                 <br>
                                 {% if request.user == profile_user %}
                                 <div class="card-text">
-                                    <h6><b>Phone Numberrrr</b></h6>
+                                    <h6><b>Phone Number</b></h6>
                                     <p>{{ profile.phoneno }}</p>
                                 </div>
                                 {% endif %}
@@ -210,23 +210,27 @@
                         {% endif %}
                         {% for testimonial,profile in testimonials %}
                         <div class="MyProfileR_card">
-                            <div class="MyProfileR_card_image">
-                              <img
-                                alt=""
-                                src="{{ profile.profile_pic.url }}"
-                                class="MyProfileR_card_img">
-                            </div>
+                            <a href="{% url 'profile' profile.user.username%}">
+                                <div class="MyProfileR_card_image">
+                                <img
+                                    alt=""
+                                    src="{{ profile.profile_pic.url }}"
+                                    class="MyProfileR_card_img">
+                                </div>
+                            </a>
                             <div class="MyProfileR_card_detail">
-                              <div class="MyProfileR_card_card_name">{{profile.full_name}}</div>
-                              <div class="MyProfileR_card_card_banch">
-                                {{ profile.get_department_display }} ,
-                                    {{ profile.get_program_display }}
-                                    20{{ profile.rollno | stringformat:"i" | slice:":2" }}
-                              </div>
-                              <div class="MyProfileR_card_card_testimony">
-                                {{ testimonial.content | linebreaksbr }}
-                              </div>
-                              <div class="MyProfileR_card_card_buttons"></div>
+                                <a style="text-decoration: none; color: inherit;" href="{% url 'profile' profile.user.username%}">
+                                    <div class="MyProfileR_card_card_name">{{profile.full_name}}</div>
+                                    <div class="MyProfileR_card_card_banch">
+                                        {{ profile.get_department_display }} ,
+                                            {{ profile.get_program_display }}
+                                            20{{ profile.rollno | stringformat:"i" | slice:":2" }}
+                                    </div>
+                                </a>
+                                <div class="MyProfileR_card_card_testimony">
+                                    {{ testimonial.content | linebreaksbr }}
+                                </div>
+                                <div class="MyProfileR_card_card_buttons"></div>
                             </div>
                             <p style="position: absolute; right: 2.5vw;" >
                                 {% if myprofile %}
@@ -249,8 +253,8 @@
                                     </button>
                                 {% endif %}
                             </p>
-                          </div>
-                          <hr class="MyProfileR_card_hr" />
+                        </div>
+                        <hr class="MyProfileR_card_hr" />
                           
                         {% endfor %}
                     </div>
