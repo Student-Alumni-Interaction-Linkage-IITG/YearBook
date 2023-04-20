@@ -1057,10 +1057,28 @@ def notready_leaderboard(request):
         else:
             logged_in = False
         if logged_in:
+            poll_questions = PollQuestion.objects.all().order_by("question")
+            polls = {}
+            for question in poll_questions:
+                answers = PollAnswer.objects.filter(question=question)
+                answers_count = answers.count()
+                poll_dict = {}
+                for answer in answers:
+                    if answer.answer in poll_dict.keys():
+                        poll_dict[answer.answer].append(answer.voted_by)
+                    else:
+                        poll_dict[answer.answer] = [answer.voted_by]
+                max_answer = max(poll_dict.items(), key=lambda x: len(x[1]))
+                polls[question] = max_answer[0]
             user = User.objects.filter(username=request.user.username).first()
             profile = Profile.objects.filter(user=user).first()
-            context = {"my_profile": profile, "logged_in": logged_in}
-            return render(request, "notready_leaderboard.html", context)
+            print(polls)
+            context = {
+                "my_profile": profile, 
+                "logged_in": logged_in,
+                "polls":polls,
+                }
+            return render(request, "ready_leaderboard.html", context)
         else:
             HttpResponseRedirect(reverse("login"))
     else:
