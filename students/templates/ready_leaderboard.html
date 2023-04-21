@@ -82,7 +82,7 @@
                     {% for question,Profile in polls.items %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><img src={{ Profile.profile_pic.url }} width="60px" style="margin-right: 20px;">{{ Profile.full_name }}</td>
+                        <td><img src={{ Profile.profile_pic.url }} width="60px" style="margin-right: 20px; border-radius: 50%;">{{ Profile.full_name }}</td>
                         <td>{{ question }}</td>
                     </tr>                        
                     {% endfor %}
