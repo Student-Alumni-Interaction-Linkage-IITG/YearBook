@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 
 {% block title %} Leaderboard | SAIL Year Book Portal {% endblock %}
 
 {% load static %}
 
 {% block content %}
-    <style>
+    <!--<style>
         table{
             margin: auto;
             margin-right: 10vw;
@@ -36,13 +36,9 @@
             padding-right: 4vw;
             font-weight: 600;
         }
-        /* .sl-rounded{
-            border-bottom-left-radius: 20px;
-        } */
         .table-head{
             height: 8vh;
             border-top: 0;
-            /* background: white; */
         }
         .leaderboard-container{
             height: 75vh;
@@ -89,7 +85,27 @@
                 </table>
             </div>
         </div>
+    </div>-->
+    <style>
+        .leaderboard-container{
+            height:70vh;
+            width: 100%;
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+        }
+        .leaderboard_text{
+            text-align: center;
+            font-size: 50px;
+            margin: auto;
+        }
+    </style>
+    <div class="leaderboard-container">
+        <div class="leaderboard_text">
+            Leaderboard will be released soon.
+        </div>
     </div>
-
-{% endblock %}
-
+{% endblock %} 
