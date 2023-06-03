@@ -1098,9 +1098,9 @@ def leaderboard(request):
 
             lead = (Leaderboard.objects.all().order_by("-pub_date"))[0]
             sorted_d = []
-            sorted_d.append((lead.profile_0, lead.cnt_0))
-            sorted_d.append((lead.profile_1, lead.cnt_1))
-            sorted_d.append((lead.profile_2, lead.cnt_2))
+            # sorted_d.append((lead.profile_0, lead.cnt_0))
+            # sorted_d.append((lead.profile_1, lead.cnt_1))
+            # sorted_d.append((lead.profile_2, lead.cnt_2))
             sorted_d.append((lead.profile_3, lead.cnt_3))
             sorted_d.append((lead.profile_4, lead.cnt_4))
             sorted_d.append((lead.profile_5, lead.cnt_5))
@@ -1111,16 +1111,20 @@ def leaderboard(request):
             last_updated = (
                 lead.pub_date + timedelta(hours=5, minutes=30)
             ).strftime("%H:%M, %b %d")
+            user_profile = Profile.objects.filter(user=user).first()
             announce = list(Announcement.objects.all().order_by("-pub_date"))
-
             context = {
                 "user": user,
                 "logged_in": logged_in,
+                "first":(lead.profile_0, lead.cnt_0),
+                "second":(lead.profile_1, lead.cnt_1),
+                "third":(lead.profile_2, lead.cnt_2),
                 "lead_dict": sorted_d,
                 "announce_list": announce,
+                "my_profile": user_profile,  # to show profile pic in navbar
                 "last_updated": last_updated,
             }
-            return render(request, "leaderboard.html", context)
+            return render(request, "ready_leaderboard.html", context)
         else:
             return HttpResponseRedirect(reverse("login"))
     else:

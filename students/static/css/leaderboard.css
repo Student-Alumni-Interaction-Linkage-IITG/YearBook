@@ -292,7 +292,7 @@
   /* margin: 0 0.5em; */
   margin-left: 3vw;
   border: none;
-  background: none;
+  background: none !important;
 }
 .carousel-control-prev,
 .carousel-control-next {

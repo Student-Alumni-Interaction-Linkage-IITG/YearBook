@@ -4,18 +4,20 @@
 
 {% load static %}
 
+{% block extrastyles %} <link rel="stylesheet" href={% static 'css/leaderboard.css' %} /> {% endblock %}
+
 {% block content %}
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href={% static 'css/leaderboard.css' %} />
-    <title>Leaderboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> -->
+    
+    <!-- <title>Leaderboard</title>
   </head>
-  <body>
+  <body> -->
     <div class="leaderboard-page">
       <!-- <Navbar/> -->
       <div class="leaderboard-top">
@@ -25,23 +27,25 @@
             <div class="ldb-second-top">
               <div class="second-posin"><div>2</div></div>
               <div class="second-img-cont">
-                <img class="second-img" src={% static 'img/index3.jpg' %} >
+                <a href="{% url 'profile' second.0.user.username %}" style="text-decoration: none;">
+                <img class="second-img" src={{ second.0.profile_pic.url }} >
+              </a>
               </div>
               <div class="second-testimonials">
-                <div class="cont"><div>500{{ second.votes }}</div></div>
+                <div class="cont"><div>{{ second.1 }}</div></div>
                 <!--Remove the integer ^ when data is fetched from the database  -->
               </div>
             </div>
 
             <div class="ldb-second-bottom">
               <div class="second-name" style="font-size: 1.6vw; font-weight: 600">
-                Ayush Mishra{{ second.name}}
+                {{ second.0.full_name}}
               </div>
               <div
                 class="second-branch-year"
-                style="font-size: 16; font-weight: 400"
+                style="font-size: 1.2vw; font-weight: 400"
               >
-                Chemical Engineeering{{ second.branch }}<br />B.Tech{{ second.degree }} 2023{{ second.year }}
+                {{ second.0.get_department_display }}<br />{{ second.0.get_program_display }} 20{{ second.0.rollno | stringformat:"i" | slice:":2" }}
               </div>
             </div>
           </div>
@@ -50,23 +54,25 @@
             <div class="ldb-first-top">
               <div class="first-posin"><div>1</div></div>
               <div class="first-img-cont">
-                <img class="first-img" src={% static 'img/index3.jpg' %} >
+                <a href="{% url 'profile' first.0.user.username %}" style="text-decoration: none;">
+                  <img class="first-img" src={{ first.0.profile_pic.url }} >
+                </a>
               </div>
               <div class="first-testimonials">
-                <div class="cont"><div>700{{ first.votes}}</div></div>
+                <div class="cont"><div>{{ first.1 }}</div></div>
                 <!--Remove the integer ^ when data is fetched from the database  -->
               </div>
             </div>
 
             <div class="ldb-first-bottom">
               <div class="first-name" style="font-size: 1.8vw; font-weight: 600">
-                Ayush Mishra{{ first.name}}
+                {{ first.0.full_name}}
               </div>
               <div
                 class="first-branch-year"
-                style="font-size: 18; font-weight: 400"
+                style="font-size: 1.2vw; font-weight: 400"
               >
-              Chemical Engineeering{{ first.branch }}<br />B.Tech{{ first.degree }} 2023{{ first.year }}
+              {{ first.0.get_department_display }}<br />{{ first.0.get_program_display }} 20{{ first.0.rollno | stringformat:"i" | slice:":2" }}
               </div>
             </div>
           </div>
@@ -75,23 +81,25 @@
             <div class="ldb-third-top">
               <div class="third-posin"><div>3</div></div>
               <div class="third-img-cont">
-                <img class="third-img" src={% static 'img/index3.jpg' %} >
+                <a href="{% url 'profile' third.0.user.username %}" style="text-decoration: none;">
+                  <img class="third-img" src={{ third.0.profile_pic.url }} >
+                </a>
               </div>
               <div class="third-testimonials">
-                <div class="cont"><div>400{{ third.votes }}</div></div>
+                <div class="cont"><div>{{ third.1 }}</div></div>
                 <!--Remove the integer ^ when data is fetched from the database  -->
               </div>
             </div>
 
             <div class="ldb-third-bottom" style="position: relative; right: 15%; margin-bottom: -5%;">
               <div class="third-name" style="font-size: 1.6vw; font-weight: 600">
-                Ayush Mishra{{ third.name }}
+                {{ third.0.full_name}}
               </div>
               <div
                 class="third-branch-year"
-                style="font-size: 14.5; font-weight: 400"
+                style="font-size: 1.2vw; font-weight: 400"
               >
-              Chemical Engineeering{{ third.branch }}<br />B.Tech{{ third.degree }} 2023 {{ third.year }}
+              {{ third.0.get_department_display }}<br />{{ third.0.get_program_display }} 20{{ third.0.rollno | stringformat:"i" | slice:":2" }}
               </div>
             </div>
           </div>
@@ -100,296 +108,39 @@
       <div class="leaderboard-bottom">
       <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
+          {% for profile in lead_dict %}
             <div class="carousel-item active">
                 <div class="card">
                     <div class="card-body">
                         <div class="leaderboard-fourth">
                         <div class="ldb-fourth-top">
                           <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
+                            <a href="{% url 'profile' profile.0.user.username %}" style="text-decoration: none;">
+                              <img class="fourth-img" src={{ profile.0.profile_pic.url }} >
+                            </a>
                           </div>
                           <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ second.votes }}</div></div> 
+                            <div class="cont"><div>{{ profile.1 }}</div></div> 
                             <!--Remove the integer ^ when data is fetched from the database  -->
                           </div>
                         </div>
 
                         <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ second.name}}
+                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600; text-align: center;">
+                            {{ profile.0.full_name }}
                           </div>
                           <div
                             class="fourth-branch-year"
                             style="font-size: 1.2vw; font-weight: 400"
                           >
-                            Chemical Engineeering{{ second.branch }}<br />B.Tech{{ second.degree }} 2023{{ second.year }}
+                          {{ profile.0.get_department_display }}<br />{{ profile.0.get_program_display }} 20{{ profile.0.rollno | stringformat:"i" | slice:":2" }}
                           </div>
                         </div>
                       </div> 
                     </div>
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ second.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ second.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ second.branch }}<br />B.Tech{{ second.degree }} 2023{{ second.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ second.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ second.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ second.branch }}<br />B.Tech{{ second.degree }} 2023{{ second.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ fourth.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ fourth.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ fourth.branch }}<br />B.Tech{{ fourth.degree }} 2023{{ fourth.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ fifth.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ fifth.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ fifth.branch }}<br />B.Tech{{ fifth.degree }} 2023{{ fifth.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ sixth.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ sixth.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ sixth.branch }}<br />B.Tech{{ sixth.degree }} 2023{{ sixth.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ seventh.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ seventh.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ seventh.branch }}<br />B.Tech{{ seventh.degree }} 2023{{ seventh.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ eighth.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ eighth.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ eighth.branch }}<br />B.Tech{{ eighth.degree }} 2023{{ eighth.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ ninth.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ ninth.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ ninth.branch }}<br />B.Tech{{ ninth.degree }} 2023{{ ninth.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="leaderboard-fourth">
-                        <div class="ldb-fourth-top">
-                          <div class="fourth-img-cont">
-                            <img class="fourth-img" src={% static 'img/index3.jpg' %} >
-                          </div>
-                          <div class="fourth-testimonials">
-                            <div class="cont"><div>394{{ tenth.votes }}</div></div> 
-                            <!--Remove the integer ^ when data is fetched from the database  -->
-                          </div>
-                        </div>
-
-                        <div class="ldb-fourth-bottom">
-                          <div class="fourth-name" style="font-size: 1.7vw; font-weight: 600">
-                            Ayush Mishra{{ tenth.name}}
-                          </div>
-                          <div
-                            class="fourth-branch-year"
-                            style="font-size: 1.2vw; font-weight: 400"
-                          >
-                            Chemical Engineeering{{ tenth.branch }}<br />B.Tech{{ tenth.degree }} 2023{{ tenth.year }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+          {% endfor %}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -402,8 +153,8 @@
     </div>
   </div>
       </div>
-    </body>
-  </html>
+    <!-- </body>
+  </html> -->
   {% endblock %} 
   {% block extrascripts %}
 <script>
