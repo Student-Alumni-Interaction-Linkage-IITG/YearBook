@@ -143,11 +143,11 @@
                                 <input class="form-control {% if errors.0 %}is-invalid{% endif %}" id="yearbook-name" placeholder="Name as you want in the Yearbook" name="name" value="{{ profile.full_name }}" autocomplete="off" readonly>
                                 <div class="invalid-feedback invalid-feedback-name">Length of Name out of bounds</div>
                                 <br>
-                                <label for="yearbook-name">Personal mail id</label>
+                                <label for="yearbook-name">Personal mail id*</label>
                                 <input class="form-control {% if errors.2 %}is-invalid{% endif %}" id="yearbook-mail" placeholder="Your new email Id" name="mailid" value="{{ profile.gmailid}}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-gmail">Incorrect format of mail id</div>
                                 <br>
-                                <label for="yearbook-name">Phone Number</label>
+                                <label for="yearbook-name">Phone Number*</label>
                                 <input class="form-control {% if errors.6 %}is-invalid{% endif %}" id="yearbook-phone" placeholder="Your new phone number" name="phoneno" value="{{ profile.phoneno }}" autocomplete="off">
                                 <div class="invalid-feedback invalid-feedback-phoneno">Invalid value of phone number</div>
                                 <br>

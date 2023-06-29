@@ -90,12 +90,12 @@ def is_edited(func):
             return func(request, *args, **kwargs)
         if (
             profile.gmailid == ""
-            or profile.address == ""
+            # or profile.address == ""
             or len(profile.phoneno) != 10
         ):
             messages.warning(
                 request,
-                "Please update all the required profile fields (i.e., phone number, address and gmail id) to continue!",
+                "Please update all the required profile fields (i.e., phone number and gmail id) to continue!",
             )
             errors = [0, 0]
             context = {
@@ -422,6 +422,19 @@ def edit_profile(request):
             user = User.objects.filter(username=request.user.username).first()
             profile = Profile.objects.filter(user=user).first()
             new_name = request.POST.get("name", "")
+            new_mailid = request.POST.get("mailid", "")
+            new_phoneno = request.POST.get("phoneno", "")
+            if len(new_mailid)==0 or len(new_phoneno)==0:
+                messages.warning(request,"Required fields (i.e., phone number and personal email id) cannot be empty!",)
+                errors = [0, 0]
+                context = {
+                    "updated": False,
+                    "profile": profile,
+                    "errors": errors,
+                    "logged_in": True,
+                    "my_profile": profile,
+                }
+                return render(request, "editprofile.html", context)
             errors = [0, 0, 0, 0, 0, 0, 0]
             if user.is_superuser:
                 return error404(request)
@@ -435,7 +448,6 @@ def edit_profile(request):
                 profile.bio = new_bio
             else:
                 errors[1] = 1
-            new_mailid = request.POST.get("mailid", "")
             if len(new_mailid) <= 60:
                 profile.gmailid = new_mailid
             else:
@@ -463,7 +475,6 @@ def edit_profile(request):
                 profile.instaid = new_instaidd
             else:
                 errors[5] = 1
-            new_phoneno = request.POST.get("phoneno", "")
             if len(new_phoneno) == 10:
                 profile.phoneno = new_phoneno
             else:
@@ -476,8 +487,6 @@ def edit_profile(request):
                 "logged_in": True,
                 "my_profile": profile,
             }
-            print(profile.linkedinid)
-            print(profile.instaid)
             if (
                 errors[0]
                 + errors[1]
@@ -1098,9 +1107,9 @@ def leaderboard(request):
 
             lead = (Leaderboard.objects.all().order_by("-pub_date"))[0]
             sorted_d = []
-            sorted_d.append((lead.profile_0, lead.cnt_0))
-            sorted_d.append((lead.profile_1, lead.cnt_1))
-            sorted_d.append((lead.profile_2, lead.cnt_2))
+            # sorted_d.append((lead.profile_0, lead.cnt_0))
+            # sorted_d.append((lead.profile_1, lead.cnt_1))
+            # sorted_d.append((lead.profile_2, lead.cnt_2))
             sorted_d.append((lead.profile_3, lead.cnt_3))
             sorted_d.append((lead.profile_4, lead.cnt_4))
             sorted_d.append((lead.profile_5, lead.cnt_5))
@@ -1111,16 +1120,20 @@ def leaderboard(request):
             last_updated = (
                 lead.pub_date + timedelta(hours=5, minutes=30)
             ).strftime("%H:%M, %b %d")
+            user_profile = Profile.objects.filter(user=user).first()
             announce = list(Announcement.objects.all().order_by("-pub_date"))
-
             context = {
                 "user": user,
                 "logged_in": logged_in,
+                "first":(lead.profile_0, lead.cnt_0),
+                "second":(lead.profile_1, lead.cnt_1),
+                "third":(lead.profile_2, lead.cnt_2),
                 "lead_dict": sorted_d,
                 "announce_list": announce,
+                "my_profile": user_profile,  # to show profile pic in navbar
                 "last_updated": last_updated,
             }
-            return render(request, "leaderboard.html", context)
+            return render(request, "ready_leaderboard.html", context)
         else:
             return HttpResponseRedirect(reverse("login"))
     else:
