@@ -39,7 +39,7 @@ urlpatterns = (
         path("polls/", student_views.polls, name="polls"),
         path(
             "leaderboard/",
-            student_views.leaderboard,
+            student_views.notready_leaderboard,
             name="leaderboard",
         ),
         # path("leaderboard/", student_views.leaderboard, name="leaderboard"),
