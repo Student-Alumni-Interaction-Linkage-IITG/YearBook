@@ -633,7 +633,7 @@ def add_testimonial(request, username):
                     )
                 content = request.POST.get("content", "")
                 content = remove_emoji(content)
-                if len(content) <= 400 and content != "":
+                if len(content) <= 800 and content != "":
                     old_testimonial = Testimonial.objects.filter(
                         given_to=given_to_profile, given_by=given_by_profile
                     ).first()
@@ -1066,28 +1066,29 @@ def notready_leaderboard(request):
         else:
             logged_in = False
         if logged_in:
-            poll_questions = PollQuestion.objects.all().order_by("question")
-            polls = {}
-            for question in poll_questions:
-                answers = PollAnswer.objects.filter(question=question)
-                answers_count = answers.count()
-                poll_dict = {}
-                for answer in answers:
-                    if answer.answer in poll_dict.keys():
-                        poll_dict[answer.answer].append(answer.voted_by)
-                    else:
-                        poll_dict[answer.answer] = [answer.voted_by]
-                max_answer = max(poll_dict.items(), key=lambda x: len(x[1]))
-                polls[question] = max_answer[0]
+
+            # poll_questions = PollQuestion.objects.all().order_by("question")
+            # polls = {}
+            # for question in poll_questions:
+            #     answers = PollAnswer.objects.filter(question=question)
+            #     answers_count = answers.count()
+            #     poll_dict = {}
+            #     for answer in answers:
+            #         if answer.answer in poll_dict.keys():
+            #             poll_dict[answer.answer].append(answer.voted_by)
+            #         else:
+            #             poll_dict[answer.answer] = [answer.voted_by]
+            #     max_answer = max(poll_dict.items(), key=lambda x: len(x[1]))
+            #     polls[question] = max_answer[0]
             user = User.objects.filter(username=request.user.username).first()
             profile = Profile.objects.filter(user=user).first()
             print(polls)
             context = {
                 "my_profile": profile, 
                 "logged_in": logged_in,
-                "polls":polls,
+                # "polls":polls,
                 }
-            return render(request, "ready_leaderboard.html", context)
+            return render(request, "leaderboard.html", context)
         else:
             HttpResponseRedirect(reverse("login"))
     else:

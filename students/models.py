@@ -54,9 +54,11 @@ class Profile(models.Model):
     lst = '55'
     ds = '61'
     emob = '63'
+    dsai = '50'
 
     department_values = (
         (cse, 'Computer Science & Engineering'),
+        (dsai, 'Data Science & Artificial Intelligence'),
         (ece, 'Electronics & Communication Engineering'),
         (me, 'Mechanical Engineering'),
         (ce, 'Civil Engineering'),
@@ -79,13 +81,13 @@ class Profile(models.Model):
     )
     profile_pic = models.ImageField(upload_to='profile_pics/', default='profile_pics/no-profile-pic.png')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=200)
     rollno = models.IntegerField()
     program = models.CharField(max_length=2, choices=program_values)
     department = models.CharField(max_length=3, choices=department_values)
-    bio = models.TextField(max_length=500)
+    bio = models.TextField(max_length=400)
     graduating = models.BooleanField(default=False)
-    address = models.CharField(max_length=500, default="")
+    address = models.CharField(max_length=400, default="")
     gmailid = models.CharField(default="", max_length=60)
     instaid = models.CharField(default="", max_length=60)
     linkedinid = models.CharField(default="", max_length=60)
