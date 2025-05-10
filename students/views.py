@@ -654,7 +654,7 @@ def add_testimonial(request, username):
                             "status": 0,
                             "error": "Testimonial size is "
                             + str(len(content))
-                            + " characters, while maximum size allowed is 400 characters.",
+                            + " characters, while maximum size allowed is 800 characters.",
                         }
                     )
             else:
